@@ -196,7 +196,7 @@ const App = () => {
                             PlaylistData.map(playlistPage => playlistPage.items.map(item => 
                                 <VideoCard 
                                 title={item.snippet.title} 
-                                date={new Date(item.snippet.publishedAt).toLocaleDateString()}
+                                date={new Date(item.snippet.publishedAt).toLocaleDateString('en-GB')}
                                 thumbnail={item.snippet.thumbnails.medium.url}
                                 key={item.id}
                                 id={item.contentDetails.videoId}/>  
