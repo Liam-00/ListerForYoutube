@@ -74,7 +74,7 @@ section {
     align-items: start;
     height: 10rem;
     margin-top: 1rem;
-
+    opacity: 0;
     & > a {
         text-decoration: none;
         height: 100%;
@@ -82,7 +82,10 @@ section {
             height: 100%;
         }
     }
+}
 
+.videocard_visible{
+    opacity: 1;
 }
 
 .videoinfoblock {
