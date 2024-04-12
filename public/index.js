@@ -125,6 +125,7 @@ const App = () => {
         }
     )
 
+
     //UTILS
     const writeFormData = (data) => {
         localStorage.setItem("FormData", JSON.stringify(data))
@@ -162,6 +163,7 @@ const App = () => {
         setPlaylistData(newCompletePlaylist)
     }
     
+    //SCROLL POSITION HANDLING
     React.useEffect (() => {
         
         //RESTORE STORED SCROLL POSITION
