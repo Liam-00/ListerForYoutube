@@ -1,65 +1,10 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client'
 
-const VideoCard = ({title, date, thumbnail, id}) => {
-    let link = `http://youtube.com/watch?v=${id}`
-    
-    const cardRef = React.useRef(null)
+import { InputForm } from './components/InputForm.jsx';
+import { VideoCard } from './components/VideoCard.jsx';
 
-    const handleImgLoad = () => {
-        cardRef.current.classList.add("videocard_visible")
-    }
-    
-    return (
-        <div className={`videocard`} ref={cardRef} style={{transition: "opacity 0.5s"}}>
-            <a href={link}>
-                <img src={thumbnail} onLoad={handleImgLoad} />
-            </a>
-            <div className="videoinfoblock">
-                <a href={link}> 
-                    <h2>{title}</h2>
-                </a>
-                <p>{date}</p>    
-            </div>
-        </div>
-    )
-}
-
-const InputForm = ({formState, handleChange, handleSubmit}) => {
-    return (
-        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post">
-            <div className="inputform_row">
-                <input 
-                    id="textbox_channelname" 
-                    type="text" 
-                    name="channel_handle" 
-                    placeholder="channel handle: @channelName" 
-                    value={formState.channel_handle}
-                    onChange={handleChange}/>
-                
-                <input 
-                    id="textbox_apikey" 
-                    type="text" 
-                    name="api_key" 
-                    placeholder="API Key here..." 
-                    value={formState.api_key} 
-                    onChange={handleChange}/>
-                <button type="submit" id="button_submit" className="button inputform_button">Get Videos</button>
-            </div>
-            
-            <div className="inputform_col">
-
-                <label htmlFor="saveApiKey">
-                    <input checked={formState.do_save_api_key} type="checkbox" name="do_save_api_key" onChange={handleChange} /> Save API Key
-                </label>
-
-                <label htmlFor="saveVideoResults">
-                    <input checked={formState.do_save_video_results} type="checkbox" name="do_save_video_results" onChange={handleChange}/> Cache Video Results
-                </label>
-                
-            </div>
-            
-        </form>
-    )
-}
+//UTILS
 
 const getChannelID = async (channelHandle, apiKey) => {
 
@@ -212,6 +157,6 @@ const App = () => {
 }
 
 
-const root = ReactDOM.createRoot(document.getElementById('aapp'));
+const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(<App/>)
 

@@ -6,7 +6,7 @@ const port = 9191
 app.use(express.static('public'))
 
 app.get("/", (req,res) => {
-    res.sendFile("./pages/index.html", {root : process.cwd()})
+    res.sendFile("./public/index.html", {root : process.cwd()})
 })
 
 app.listen(port, () => {
