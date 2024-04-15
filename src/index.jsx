@@ -108,6 +108,10 @@ const App = () => {
         setPlaylistData(newCompletePlaylist)
     }
     
+    const handlescrollToTop = () => {
+        window.scrollTo( {top: 0, left: 0, behavior: "smooth"} )
+    }
+    
     //SCROLL POSITION HANDLING
     React.useEffect (() => {
         
@@ -152,6 +156,7 @@ const App = () => {
                     {PlaylistData.length > 0 ?  <button onClick={handleLoadMore} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
                 </div>            
             </section>
+            <button className="button button_floating" onClick={handlescrollToTop}>Scroll to Top</button>
         </>
     )
 }

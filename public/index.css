@@ -58,14 +58,22 @@ section {
     font-family: Tahoma;
     letter-spacing: 2px;
     color: rgb(95, 95, 95);
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active {
+        transform: translateX(-3px);
+    }
+
 }
 
-.button:hover {
-    cursor: pointer;
-}
-
-.button:active {
-    transform: translateX(-3px);
+.button_floating {
+    position: fixed;
+    bottom: 6rem;
+    right: 4rem;
+    height: 3rem;
 }
 
 
@@ -160,33 +168,3 @@ section {
     }
 }
 
-/* .inputform {
-    height: 3rem;
-    display: flex; 
-    gap: 1rem;
-}
-
-
-
-.inputform_button {
-    width: auto;
-}
-
-.inputform_textbox {
-
-    flex-grow: 2;
-    
-    padding-left: 1rem;
-    border:1px solid transparent;
-    outline:none;
-    background-color: rgb(222, 222, 222);
-}
-
-.inputform_textbox:active, .inputform_textbox:focus {
-    border:none;
-    border: 1px solid black;
-}
-
-.marginTop {
-    margin-top: 1rem;
-} */
