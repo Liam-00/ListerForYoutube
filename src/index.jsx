@@ -144,11 +144,11 @@ const App = () => {
                         PlaylistData.length > 0 ?
                             PlaylistData.map(playlistPage => playlistPage.items.map(item => 
                                 <VideoCard 
-                                title={item.snippet.title} 
-                                date={new Date(item.snippet.publishedAt).toLocaleDateString('en-GB')}
-                                thumbnail={item.snippet.thumbnails.medium.url}
-                                key={item.id}
-                                id={item.contentDetails.videoId}/>  
+                                    title={item.snippet.title} 
+                                    date={new Date(item.snippet.publishedAt).toLocaleDateString('en-GB')}
+                                    thumbnail={item.snippet.thumbnails.medium.url}
+                                    key={item.id}
+                                    id={item.contentDetails.videoId}/>  
                             )).reduce((full, val) => [...full, ...val], [])
                         :
                             null
