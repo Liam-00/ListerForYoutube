@@ -36,12 +36,32 @@ const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
 
 const App = () => {
     
+    //UTILS
+    const writeFormData = (data) => {
+        localStorage.setItem("FormData", JSON.stringify(data))
+    }
+ 
+    const readFormData = () => {
+        return JSON.parse(localStorage.getItem("FormData") ?? "null")
+    }
+
+    const writePlaylistData = (playlistArray) => {
+        localStorage.setItem("PlaylistData", JSON.stringify(playlistArray))
+    }
+
+    const readPlaylistData = () => {
+        return JSON.parse(localStorage.getItem("PlaylistData") ?? "null")
+    }
+
+
     //STATE
     const [FormData, setFormData] = React.useState(
         () => {
-            let storedJson = localStorage.getItem("FormData") ?? ""
-            let data = storedJson.length > 0 ? JSON.parse(storedJson) : null
+            // let storedJson = localStorage.getItem("FormData") ?? ""
+            // let data = storedJson.length > 0 ? JSON.parse(storedJson) : null
             
+            let data = readFormData()
+
             return {
                 channel_handle: (data?.channel_handle && data?.do_save_video_results) ? data.channel_handle : "",
                 api_key: data?.api_key && data?.do_save_api_key ? data.api_key : "",
@@ -58,23 +78,13 @@ const App = () => {
             //return empty if list is not saved
             if (!FormData.do_save_video_results) return []
 
-            //initialize with restored data
-            let storedJson = localStorage.getItem("PlaylistData") ?? ""
-            let data = []
-            if (storedJson.length > 0) {
-                data = JSON.parse(storedJson)
-                setUsingCachedPlaylist(true)
-            }
+            let data = readPlaylistData() ?? []
+            setUsingCachedPlaylist(true)
 
             return data
         }
     )
 
-
-    //UTILS
-    const writeFormData = (data) => {
-        localStorage.setItem("FormData", JSON.stringify(data))
-    }
 
     //HANDLERS
     const handleFormChange = (e) => {
@@ -89,26 +99,26 @@ const App = () => {
         let id = await getChannelID(FormData.channel_handle, FormData.api_key)
         
         let playlist = await getChannelPlaylist(id, FormData.api_key)
-        localStorage.setItem("PlaylistData", JSON.stringify([playlist]))
         
-        setUsingCachedPlaylist(false)
+        writePlaylistData([playlist])
         setPlaylistData([playlist])
+        setUsingCachedPlaylist(false)
         e.preventDefault()
     }
 
     const handleLoadMore = async () => {
         let pageToken = PlaylistData[PlaylistData.length - 1].nextPageToken
-
         let id = PlaylistData[PlaylistData.length - 1].items[0].snippet.channelId
+
         let nextPlaylistSet = await getChannelPlaylist(id, FormData.api_key, pageToken)
         
-        let newCompletePlaylist = [...PlaylistData, nextPlaylistSet]
-        if (FormData.do_save_video_results) localStorage.setItem("PlaylistData", JSON.stringify(newCompletePlaylist))
-
-        setPlaylistData(newCompletePlaylist)
+        let newCompletePlaylistArray = [...PlaylistData, nextPlaylistSet]
+        
+        writePlaylistData(newCompletePlaylistArray)
+        setPlaylistData(newCompletePlaylistArray)
     }
     
-    const handlescrollToTop = () => {
+    const handleScrollToTop = () => {
         window.scrollTo( {top: 0, left: 0, behavior: "smooth"} )
     }
     
@@ -156,7 +166,7 @@ const App = () => {
                     {PlaylistData.length > 0 ?  <button onClick={handleLoadMore} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
                 </div>            
             </section>
-            <button className="button button_floating" onClick={handlescrollToTop}>Scroll to Top</button>
+            <button className="button button_floating" onClick={handleScrollToTop}>Scroll to Top</button>
         </>
     )
 }
