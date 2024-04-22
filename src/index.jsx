@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { InputForm } from './components/InputForm.jsx';
 import { VideoCard } from './components/VideoCard.jsx';
 
-//UTILS
+//API UTILS
 
 const getChannelID = async (channelHandle, apiKey) => {
 
@@ -58,7 +58,7 @@ const App = () => {
             //return empty if list is not saved
             if (!FormData.do_save_video_results) return []
 
-            //
+            //initialize with restored data
             let storedJson = localStorage.getItem("PlaylistData") ?? ""
             let data = []
             if (storedJson.length > 0) {
@@ -85,15 +85,15 @@ const App = () => {
 
     const handleFormSubmit = async (e) => {
         //prevent page reloading on submit
-        e.preventDefault()
-                
+        
         let id = await getChannelID(FormData.channel_handle, FormData.api_key)
         
         let playlist = await getChannelPlaylist(id, FormData.api_key)
         localStorage.setItem("PlaylistData", JSON.stringify([playlist]))
-
+        
         setUsingCachedPlaylist(false)
         setPlaylistData([playlist])
+        e.preventDefault()
     }
 
     const handleLoadMore = async () => {
