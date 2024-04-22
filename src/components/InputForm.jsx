@@ -2,7 +2,7 @@ import React from "react"
 
 const InputForm = ({formState, handleChange, handleSubmit}) => {
     return (
-        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post">
+        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post" action="">
             <div className="inputform_row">
                 <input 
                     id="textbox_channelname" 
@@ -10,7 +10,8 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
                     name="channel_handle" 
                     placeholder="channel handle: @channelName" 
                     value={formState.channel_handle}
-                    onChange={handleChange}/>
+                    onChange={handleChange}
+                    autoComplete="off"/>
                 
                 <input 
                     id="textbox_apikey" 
@@ -18,7 +19,8 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
                     name="api_key" 
                     placeholder="API Key here..." 
                     value={formState.api_key} 
-                    onChange={handleChange}/>
+                    onChange={handleChange}
+                    autoComplete="off"/>
                 <button type="submit" id="button_submit" className="button inputform_button">Get Videos</button>
             </div>
             
