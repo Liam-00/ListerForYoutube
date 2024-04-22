@@ -2,7 +2,7 @@ import React from "react"
 
 const InputForm = ({formState, handleChange, handleSubmit}) => {
     return (
-        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post" >
+        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post" action="javascript:void(0);" >
             <div className="inputform_row">
                 <input 
                     id="textbox_channelname" 
