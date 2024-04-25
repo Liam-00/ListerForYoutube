@@ -45,11 +45,17 @@ section {
 
 
 .button {
+    --text_color: rgb(95, 95, 95);
     
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
     min-height: 2rem;
 
     background-color: rgb(222, 222, 222);
-    padding: 0rem 1rem;
+    padding: 0rem 0.5rem;
     user-select: none;
     border-top: 3px solid white;
     border-left: 3px solid white;
@@ -58,7 +64,7 @@ section {
     font-weight: bold;
     font-family: Tahoma;
     letter-spacing: 2px;
-    color: rgb(95, 95, 95);
+    color: var(--text_color);
 
     &:hover {
         cursor: pointer;
@@ -68,6 +74,12 @@ section {
         transform: translateX(-3px);
     }
 
+    & svg {
+        height: 1.3rem;
+        width: 1.3rem;
+        stroke: var(--text_color);
+        fill:none;
+    }
 }
 
 .button_floating {
@@ -75,6 +87,14 @@ section {
     bottom: 6rem;
     right: 4rem;
     height: 3rem;
+}
+
+.button_row {
+    display:inline-flex;
+    gap: 1rem;
+    height: 3rem;
+    margin-top: 1rem;
+    align-self: flex-end;
 }
 
 
