@@ -141,11 +141,23 @@ const App = () => {
 
     return (
         <>
-            <section>
-                <InputForm 
-                    formState={FormData}
-                    handleChange={handleFormChange} 
-                    handleSubmit={handleFormSubmit}/>
+            <section className="controls_section">
+                    <InputForm 
+                        formState={FormData}
+                        handleChange={handleFormChange} 
+                        handleSubmit={handleFormSubmit}/>
+                    <div className="button_row">
+                            <button className='button'>
+                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_close"></use></svg>Add Channel
+                            </button>
+                            <button className='button'>
+                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_reload"></use></svg>Reload
+                            </button>
+                            <button className='button'>
+                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_chevron"></use></svg>Expand Channels
+                            </button>
+
+                    </div>
             </section>
             <section>
                 <div>
