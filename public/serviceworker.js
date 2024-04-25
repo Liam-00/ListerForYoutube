@@ -28,15 +28,24 @@ self.addEventListener('install', (event) => {
 //     console.log("Service Worker: active")
 // })
 
-self.addEventListener('fetch', (event) => {
-    //console.log(event)
-    event.respondWith(
-        (async () => {
-            //open cache
-            let cache = await caches.open(app_cache_static)
-            
-            //return cached asset if it exists otherwise fetch it
-            return await cache.match(event.request) ?? await fetch(event.request)
-        })()
-    )
-})
+const handleFetch = (event) => {
+    const getUrlResource = async (request) => {
+            return await caches.match(request) ?? (async () => {
+                let response
+                if (request.url.match(/^https:\/\/i.ytimg.com/)) {
+                    response = await fetch(request.url, {mode: "no-cors"})
+
+                    let cache = await caches.open(app_cache_images) 
+                    cache.put(request, response)
+                }
+                
+                response = await fetch(request)
+                
+                return response
+            })()
+    }
+
+    event.respondWith( getUrlResource(event.request) )
+}
+
+self.addEventListener('fetch', handleFetch)
