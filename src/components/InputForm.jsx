@@ -21,7 +21,9 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
                     value={formState.api_key} 
                     onChange={handleChange}
                     autoComplete="off"/>
-                <button type="submit" id="button_submit" className="button inputform_button">Get Videos</button>
+                <button type="submit" id="button_submit" className="button inputform_button">
+                    <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_search"></use></svg>Get Videos
+                </button>
             </div>
             
             <div className="inputform_col">
