@@ -161,7 +161,10 @@ const App = () => {
             </section>
             <section>
                 <div>
-                    <h1>VIDEOS{UsingCachedPlaylist ? " - cached data" : ""}</h1>
+                    <div className="section_header">
+                        <h1>{PlaylistData[0]?.items[0]?.snippet?.channelTitle}</h1>
+                        
+                    </div>
                     {
                         PlaylistData.length > 0 ?
                             PlaylistData.map(playlistPage => playlistPage.items.map(item => 
