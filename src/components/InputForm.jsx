@@ -26,18 +26,17 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
                 </button>
             </div>
             
-            <div className="inputform_col">
+            <div className="checkbox_row">
 
-                <label htmlFor="saveApiKey">
-                    <input checked={formState.do_save_api_key} type="checkbox" name="do_save_api_key" onChange={handleChange} /> Save API Key
+                <label htmlFor="do_save_api_key" onClick={handleChange}>
+                    <input id="do_save_api_key" checked={formState.do_save_api_key} type="checkbox" name="do_save_api_key"  /> Save API Key
                 </label>
 
-                <label htmlFor="saveVideoResults">
-                    <input checked={formState.do_save_video_results} type="checkbox" name="do_save_video_results" onChange={handleChange}/> Cache Video Results
+                <label htmlFor="do_save_video_results" onClick={handleChange}>
+                    <input id="do_save_video_results" checked={formState.do_save_video_results} type="checkbox" name="do_save_video_results" /> Cache Video Results
                 </label>
                 
             </div>
-            
         </form>
     )
 }
