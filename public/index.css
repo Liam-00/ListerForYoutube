@@ -33,7 +33,6 @@ section {
     padding: 2rem;
     max-width: 50rem;
     margin: 0 auto;
-
     & h1 {
         color: hsla(0, 0%, 0%, 20%);
         font-size: 3rem;
@@ -43,6 +42,13 @@ section {
 
 }
 
+.controls_section {
+    position: sticky;
+    min-height: 5rem;
+    top:0px;
+    display: flex;
+    flex-direction: column;
+}
 
 .button {
     --text_color: rgb(95, 95, 95);
@@ -159,8 +165,16 @@ section {
 
 .inputform input[type="checkbox"] {
     margin: 0px;
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    accent-color: rgb(16, 16, 16);
+    
+}
+
+.checkbox_row {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .inputform label {
@@ -189,3 +203,23 @@ section {
     }
 }
 
+.flex_row {
+    display: flex;
+}
+
+.flex_col {
+    display:flex;
+    flex-direction: column;
+}
+
+.section_header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.button_set {
+    display:flex;
+    gap: 0.5rem;
+    height: 3rem;
+}
