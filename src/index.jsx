@@ -85,6 +85,9 @@ const App = () => {
         }
     )
 
+    const [showChannelList, setShowChannelList] = React.useState(true)
+    const refChannelList = React.useRef(null)
+
 
     //HANDLERS
     const handleFormChange = (e) => {
@@ -122,6 +125,15 @@ const App = () => {
         window.scrollTo( {top: 0, left: 0, behavior: "instant"} )
     }
     
+    const handleToggleChannelList = () => {
+        showChannelList ? 
+            refChannelList.current.classList.add("channel_list_hidden")
+            :
+            refChannelList.current.classList.remove("channel_list_hidden")
+        
+            setShowChannelList(!showChannelList)
+    }
+
     //SCROLL POSITION HANDLING
     React.useEffect (() => {
         
@@ -153,10 +165,17 @@ const App = () => {
                             <button className='button'>
                                 <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_reload"></use></svg>Reload
                             </button>
-                            <button className='button'>
+                            <button className='button' onClick={handleToggleChannelList}>
                                 <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_chevron"></use></svg>Expand Channels
                             </button>
 
+                    </div>
+                    <div className='channel_list' ref={refChannelList}>
+                        <div className='channel_item'>
+                            ForeheadFablesPodcast
+                            <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_close"></use></svg>
+                        </div>
+                        
                     </div>
             </section>
             <section>
