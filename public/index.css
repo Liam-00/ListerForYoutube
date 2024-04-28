@@ -1,18 +1,21 @@
+:root {
+    --text_color: rgb(95, 95, 95);
+    --ui_background: rgb(222, 222, 222);;
+}
+
 body {
     background-color: hsl(0, 0%, 11%);
     font-family: 'Varela Round','Trebuchet MS';
+    font-size: 16px;
     color: hsla(0, 0%, 10%, 100%);
     margin: 0px;
-
+    
 }
 
 h1,h2,h3,h4,h5,h6 {
     margin: 0px;
 }
 
-h1 {
-    font-size: 0.8rem;
-}
 
 p {
     font-size: 0.8rem;
@@ -35,7 +38,7 @@ section {
     margin: 0 auto;
     & h1 {
         color: hsla(0, 0%, 0%, 20%);
-        font-size: 3rem;
+        font-size: 2rem;
         text-transform: uppercase;
         font-style: italic;
     }
@@ -48,10 +51,10 @@ section {
     top:0px;
     display: flex;
     flex-direction: column;
+    padding: 0.5rem 2rem;
 }
 
 .button {
-    --text_color: rgb(95, 95, 95);
     
     display: flex;
     align-items: center;
@@ -60,13 +63,14 @@ section {
 
     min-height: 2rem;
 
-    background-color: rgb(222, 222, 222);
+    background-color: var(--ui_background);
     padding: 0rem 0.5rem;
     user-select: none;
     border-top: 3px solid white;
     border-left: 3px solid white;
     border-bottom: 3px solid black;
 
+    font-size: 0.8rem;
     font-weight: bold;
     font-family: Tahoma;
     letter-spacing: 2px;
@@ -81,8 +85,8 @@ section {
     }
 
     & svg {
-        height: 1.3rem;
-        width: 1.3rem;
+        height: 1rem;
+        width: 1rem;
         stroke: var(--text_color);
         fill:none;
     }
@@ -91,14 +95,14 @@ section {
 .button_floating {
     position: fixed;
     bottom: 6rem;
-    right: 4rem;
+    right: 10rem;
     height: 3rem;
 }
 
 .button_row {
     display:inline-flex;
     gap: 1rem;
-    height: 3rem;
+    height: 2.5rem;
     margin-top: 1rem;
     align-self: flex-end;
 }
@@ -107,8 +111,8 @@ section {
 .videocard {
     display: flex;
     align-items: start;
-    height: 8rem;
-    margin-top: 1rem;
+    height: 6rem;
+    margin-top: 0.8rem;
     opacity: 0;
     & > a {
         text-decoration: none;
@@ -126,18 +130,19 @@ section {
 .videoinfoblock {
     padding-left: 1rem;
     padding-top: 1rem;
-    background: linear-gradient(to right, hsla(0, 0%, 0%, 15%), hsla(0, 0%, 0%, 0%));
+    background: linear-gradient(to right, hsla(0, 0%, 100%, 15%), hsla(0, 0%, 0%, 0%));
     align-self: stretch;
     flex-grow: 1;
 
     & h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color:black;
         text-decoration: underline;
     }
 
     & p {
         font-weight: bold;
+        
         margin-top: 0.5rem;
     }
 }
@@ -152,21 +157,19 @@ section {
     padding-left: 1rem;
     border:1px solid transparent;
     outline:none;
-    background-color: rgb(222, 222, 222);
+    background-color: var(--ui_background);
     &:active {
-        border:none;
         border: 1px solid black;
     }
     &:focus {
-        border:none;
         border: 1px solid black;
     }
 }
 
 .inputform input[type="checkbox"] {
     margin: 0px;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1rem;
+    height: 1rem;
     accent-color: rgb(16, 16, 16);
     
 }
@@ -196,7 +199,7 @@ section {
     display: flex;
     flex-direction: row;
     gap:1rem;
-    min-height: 3rem;
+    min-height: 2.5rem;
     justify-items: stretch;
     & > * {
         flex-grow: 1;
@@ -270,4 +273,8 @@ section {
         }
 
     }
+}
+
+.channel_list_hidden {
+    display: none;
 }
