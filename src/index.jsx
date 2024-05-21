@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client'
 
 import { InputForm } from './components/InputForm.jsx';
 import { VideoCard } from './components/VideoCard.jsx';
+import { ChannelListItem } from './components/ChannelListItem.jsx';
 
 //API UTILS
 
@@ -36,7 +37,28 @@ const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
 
 const App = () => {
     
-    //UTILS
+    //HANDLER UTILS=================================================================
+    const CHANNELDATA = "CHANNELDATA"
+    const PLAYLISTDATA = "PLAYLISTDATA"
+    // channelData: {
+    //     channels: {channelIdString: channelNameString},
+    //     currentChannelId: stringId
+    // }
+    // cache: {
+    //     playlists: {
+    //         channelidstring: {
+    //             scrollPosition: int,
+    //             playlistData: []
+    //         }
+    //     },
+    //     channelData: {
+    //         channelId: channelnamestring
+    //     }
+    
+    // }
+
+    
+
     const writeFormData = (data) => {
         localStorage.setItem("FormData", JSON.stringify(data))
     }
@@ -45,16 +67,29 @@ const App = () => {
         return JSON.parse(localStorage.getItem("FormData") ?? "null")
     }
 
-    const writePlaylistData = (playlistArray) => {
-        localStorage.setItem("PlaylistData", JSON.stringify(playlistArray))
+    const readChannelData = () => {
+        let channelData_json = localStorage.getItem(CHANNELDATA);
+
+        return channelData_json ? JSON.parse(channelData_json) : null
     }
 
-    const readPlaylistData = () => {
-        return JSON.parse(localStorage.getItem("PlaylistData") ?? "null")
+    const writeChannelData = (channelData_new) => {
+        let channelData_json = JSON.stringify(channelData_new)
+        localStorage.setItem(CHANNELDATA, channelData_json)
+    }
+    
+    const readCachedPlaylistData = () => {
+        let playlistData_json = localStorage.getItem(PLAYLISTDATA)
+        return playlistData_json ? JSON.parse(playlistData_json) : null
+    }
+
+    const writePlaylistDataToCache = (playlistData_new) => {
+        let playlistData_json = JSON.stringify(playlistData_new)
+        localStorage.setItem(PLAYLISTDATA, playlistData_json)
     }
 
 
-    //STATE
+    //STATE=================================================================
     const [FormData, setFormData] = React.useState(
         () => {
             // let storedJson = localStorage.getItem("FormData") ?? ""
@@ -71,25 +106,39 @@ const App = () => {
         }
     )
     
-    const [UsingCachedPlaylist, setUsingCachedPlaylist] = React.useState(false)
-
-    const [PlaylistData, setPlaylistData] = React.useState(
-        () => {
-            //return empty if list is not saved
-            if (!FormData.do_save_video_results) return []
-
-            let data = readPlaylistData() ?? []
-            setUsingCachedPlaylist(true)
-
-            return data
-        }
-    )
-
     const [showChannelList, setShowChannelList] = React.useState(true)
+
+    const [playlistData, setPlaylistData] = React.useState(() => {
+        let Data = readCachedPlaylistData()
+        if (!Data) {
+            writePlaylistDataToCache({})
+            return {}
+        }
+        return Data
+    })
+    
+    const [channelData, setChannelData] = React.useState(() => {
+        let Data = readChannelData() 
+
+        if (!Data) {
+            writeChannelData({channels:{}, currentChannel: ""})
+            return {channels:{}, currentChannel: ""}
+        }
+        return Data
+    })
+
+    const [localPlaylist, setLocalPlaylist] = React.useState(() => {
+        
+        if (channelData.currentChannel) {
+            return playlistData[channelData.currentChannel]
+        }
+        return []
+    })
+ 
     const refChannelList = React.useRef(null)
 
 
-    //HANDLERS
+    //HANDLERS=================================================================
     const handleFormChange = (e) => {
         let newState = {...FormData, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value}
         writeFormData(newState)
@@ -97,41 +146,171 @@ const App = () => {
     }
 
     const handleFormSubmit = async (e) => {
-        //prevent page reloading on submit
         
+        //get requested playlist by channel handle
         let id = await getChannelID(FormData.channel_handle, FormData.api_key)
-        
         let playlist = await getChannelPlaylist(id, FormData.api_key)
         
-        writePlaylistData([playlist])
-        setPlaylistData([playlist])
-        setUsingCachedPlaylist(false)
+        //check if channel is cached and update
+        let channelId = `${playlist.items[0].snippet.channelId}`
+        let channelName = `${playlist.items[0].snippet.channelName}`
+
+        let cache_check = Object.keys(channelData.channels).includes(channelId)
+        if (cache_check) {
+            setChannelData(
+                {
+                    ...channelData, 
+                    channels: {...channelData.channels, channelId: channelName},
+                    currentChannel: channelId
+                }
+            )
+            setPlaylistData(
+                {
+                    ...playlistData,
+                    channelId: [playlist]
+                }
+            )
+        }
+
+        //set local playlistData
+        setLocalPlaylist([playlist])
         e.preventDefault()
     }
 
     const handleLoadMore = async () => {
-        let pageToken = PlaylistData[PlaylistData.length - 1].nextPageToken
-        let id = PlaylistData[PlaylistData.length - 1].items[0].snippet.channelId
+        //uses nextpage token and id from currently loaded playlist
+        let pageToken = localPlaylist[localPlaylist.length - 1].nextPageToken
+        let channelId = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelId
+        let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelName
 
-        let nextPlaylistSet = await getChannelPlaylist(id, FormData.api_key, pageToken)
+        let nextPlaylistSet = await getChannelPlaylist(channelId, FormData.api_key, pageToken)
         
-        let newCompletePlaylistArray = [...PlaylistData, nextPlaylistSet]
+        let newCompletePlaylistArray = [...localPlaylist, nextPlaylistSet]
         
-        writePlaylistData(newCompletePlaylistArray)
-        setPlaylistData(newCompletePlaylistArray)
+        //update cache if channel already in cache
+        let cache_check = Object.keys(channelData.channels).includes(channelId)
+        if (cache_check) {
+            setChannelData(
+                {
+                    ...channelData, 
+                    channels: {...channelData.channels, channelId: channelName},
+                    currentChannel: channelId
+                }
+            )
+            setPlaylistData(
+                {
+                    ...playlistData,
+                    channelId: newCompletePlaylistArray
+                }
+            )
+        }
+
+        setLocalPlaylist(newCompletePlaylistArray)
     }
     
     const handleScrollToTop = () => {
         window.scrollTo( {top: 0, left: 0, behavior: "instant"} )
     }
-    
-    const handleToggleChannelList = () => {
+
+    const handleAddChannel = () => {
+        let channelId = localPlaylist[0].items[0].snippet.channelId
+        let channelName = localPlaylist[0].items[0].snippet.channelTitle
+        setChannelData(
+            {
+                ...channelData, 
+                channels: {...channelData.channels, [channelId]: channelName},
+                currentChannel: channelId
+            }
+        )
+        setPlaylistData(
+            {
+                ...playlistData,
+                [channelId]: localPlaylist
+            }
+        )
+    }
+
+    const handleToggleChannelListView = () => {
         showChannelList ? 
             refChannelList.current.classList.add("channel_list_hidden")
             :
             refChannelList.current.classList.remove("channel_list_hidden")
         
             setShowChannelList(!showChannelList)
+    }
+
+    const handleReloadChannelPlaylist = async () => {
+        let channelId = localPlaylist[0].items[0].snippet.channelId
+        let channelName = localPlaylist[0].items[0].snippet.channelName
+
+        //construct new playlistdata
+        let playlistCount = localPlaylist.length
+        let newBasePlaylist = await getChannelPlaylist(channelId, FormData.api_key)
+        
+        let newPlaylistData = [newBasePlaylist]
+    
+        playlistCount--
+
+        while (playlistCount > 0) {
+            let nextPlaylist = await getChannelPlaylist(
+                channelId, 
+                FormData.api_key, 
+                newPlaylistData[newPlaylistData.length - 1].nextPageToken
+            )
+
+            newPlaylistData.push(nextPlaylist)
+        }
+
+        let channelList = Object.keys(channelData.channels)
+
+        if ( channelList.includes(channelId) ) {
+            
+            setChannelData(
+                {
+                    ...channelData, 
+                    channels: {...channelData.channels, channelId: channelName},
+                    currentChannel: channelId
+                }
+            )
+            setPlaylistData(
+                {
+                    ...playlistData,
+                    channelId: [newPlaylistData]
+                }
+            )
+        }
+
+        setLocalPlaylist(newPlaylistData)
+    }
+
+    const handleChannelListItemClick = (channelId) => {
+        setChannelData(
+            {
+                ...channelData,
+                currentChannel: channelId
+            }
+        )
+        setLocalPlaylist(playlistData[`${channelId}`])
+    }
+
+    const handleChannelListItemRemove = (channelId) => {
+        let newPlaylistData = {...playlistData}
+        let newChannelData = {...channelData}
+
+        delete newPlaylistData[channelId]
+        delete newChannelData.channels[channelId]
+
+        setPlaylistData(
+            {
+                ...newPlaylistData,
+            }
+        )        
+        setChannelData(
+            {
+                ...newChannelData,
+            }
+        )
+        
     }
 
     //SCROLL POSITION HANDLING
@@ -151,42 +330,70 @@ const App = () => {
         return () => window.removeEventListener("scroll", handlescroll)
     }, [])
 
+    //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
+    React.useEffect(() => {
+
+        writeChannelData(channelData)
+        writePlaylistDataToCache(playlistData)
+    }, [playlistData, channelData])
+
+
     return (
         <>
             <section className="controls_section">
-                    <InputForm 
-                        formState={FormData}
-                        handleChange={handleFormChange} 
-                        handleSubmit={handleFormSubmit}/>
-                    <div className="button_row">
-                            <button className='button'>
-                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_close"></use></svg>Add Channel
-                            </button>
-                            <button className='button'>
-                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_reload"></use></svg>Reload
-                            </button>
-                            <button className='button' onClick={handleToggleChannelList}>
-                                <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_chevron"></use></svg>Expand Channels
-                            </button>
+                <InputForm 
+                    formState={FormData}
+                    handleChange={handleFormChange} 
+                    handleSubmit={handleFormSubmit}/>
+                <div className="button_row">
+                        <button className='button' onClick={handleAddChannel}>
+                            <svg viewBox='0 0 48 48'>
+                                <use href="/icons/icon_map.svg#i_plus"></use>
+                            </svg>
+                            Add Channel
+                        </button>
+                        <button className='button' onClick={handleReloadChannelPlaylist}>
+                            <svg viewBox='0 0 48 48'>
+                                <use href="/icons/icon_map.svg#i_reload"></use>
+                            </svg>
+                            Reload
+                        </button>
+                        <button className='button' onClick={handleToggleChannelListView}>
+                            <svg viewBox='0 0 48 48'>
+                                <use href={showChannelList ? "/icons/icon_map.svg#i_chevron_up": "/icons/icon_map.svg#i_chevron"}></use>
+                            </svg>
+                            {showChannelList ? "Hide Channels" : "Show Channels"}
+                        </button>
+                </div>
+                <div className='channel_list' ref={refChannelList}>
+                    {
+                        (() => {
+                            let result = []
 
-                    </div>
-                    <div className='channel_list' ref={refChannelList}>
-                        <div className='channel_item'>
-                            ForeheadFablesPodcast
-                            <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_close"></use></svg>
-                        </div>
-                        
-                    </div>
+                            for (const channelId in channelData.channels) {
+                                result.push(
+                                    <ChannelListItem 
+                                        key={channelId}
+                                        channelId={channelId}
+                                        channelName={channelData.channels[channelId]}
+                                        clickHandler={() => {handleChannelListItemClick(channelId)}}
+                                        removeHandler={() => {handleChannelListItemRemove(channelId)}}
+                                    />
+                                )
+                            }
+                            return result
+                        })()
+                    }        
+                </div>
             </section>
             <section>
                 <div>
                     <div className="section_header">
-                        <h1>{PlaylistData[0]?.items[0]?.snippet?.channelTitle}</h1>
-                        
+                        <h1>{localPlaylist.length > 0 ? localPlaylist[0].items[0].snippet.channelTitle : ""}</h1>
                     </div>
                     {
-                        PlaylistData.length > 0 ?
-                            PlaylistData.map(playlistPage => playlistPage.items.map(item => 
+                        localPlaylist.length > 0 ?
+                            localPlaylist.map(playlistPage => playlistPage.items.map(item => 
                                 <VideoCard 
                                     title={item.snippet.title} 
                                     date={new Date(item.snippet.publishedAt).toLocaleDateString('en-GB')}
@@ -197,7 +404,7 @@ const App = () => {
                         :
                             null
                     }                
-                    {PlaylistData.length > 0 ?  <button onClick={handleLoadMore} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
+                    {localPlaylist.length > 0 ?  <button onClick={handleLoadMore} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
                 </div>            
             </section>
             <button className="button button_floating" onClick={handleScrollToTop}>Scroll to Top</button>
