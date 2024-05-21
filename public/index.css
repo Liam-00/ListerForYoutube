@@ -6,11 +6,17 @@
 body {
     background-color: hsl(0, 0%, 11%);
     font-family: 'Varela Round','Trebuchet MS';
-    font-size: 16px;
     color: hsla(0, 0%, 10%, 100%);
     margin: 0px;
-    
+    font-size: 1rem;
 }
+
+textarea, input {
+    font: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+}
+
 
 h1,h2,h3,h4,h5,h6 {
     margin: 0px;
@@ -18,7 +24,7 @@ h1,h2,h3,h4,h5,h6 {
 
 
 p {
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin: 0px;
 }
 
@@ -37,7 +43,7 @@ section {
     max-width: 50rem;
     margin: 0 auto;
     & h1 {
-        color: hsla(0, 0%, 0%, 20%);
+        color: hsla(0, 0%, 0%, 40%);
         font-size: 2rem;
         text-transform: uppercase;
         font-style: italic;
@@ -58,22 +64,20 @@ section {
     
     display: flex;
     align-items: center;
+    align-content: center;
     justify-content: center;
     gap: 0.5rem;
 
-    min-height: 2rem;
-
     background-color: var(--ui_background);
-    padding: 0rem 0.5rem;
+    padding: 5px 1rem 7px 1rem;
     user-select: none;
     border-top: 3px solid white;
     border-left: 3px solid white;
-    border-bottom: 3px solid black;
+    border-bottom: 1px solid black;
 
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: bold;
-    font-family: Tahoma;
-    letter-spacing: 2px;
+    letter-spacing: 0.1rem;
     color: var(--text_color);
 
     &:hover {
@@ -85,8 +89,8 @@ section {
     }
 
     & svg {
-        height: 1rem;
-        width: 1rem;
+        height: 1.rem;
+        width: 1.3rem;
         stroke: var(--text_color);
         fill:none;
     }
@@ -102,8 +106,7 @@ section {
 .button_row {
     display:inline-flex;
     gap: 1rem;
-    height: 2.5rem;
-    margin-top: 1rem;
+     margin-top: 1rem;
     align-self: flex-end;
 }
 
@@ -111,7 +114,7 @@ section {
 .videocard {
     display: flex;
     align-items: start;
-    height: 6rem;
+    height: 7rem;
     margin-top: 0.8rem;
     opacity: 0;
     & > a {
@@ -199,7 +202,6 @@ section {
     display: flex;
     flex-direction: row;
     gap:1rem;
-    min-height: 2.5rem;
     justify-items: stretch;
     & > * {
         flex-grow: 1;
@@ -240,14 +242,12 @@ section {
         align-items: center;
         gap: 0.5rem;
 
-        height: 2rem;
-
         border: 1px solid var(--text_color);
         color: var(--text_color);
         font-weight: bold;
-        font-size: 0.8rem;
+        font-size: 1rem;
 
-        padding: 0rem 1rem;
+        padding: 0.4rem 1rem;
         border-radius: 100px;
         background: var(--ui_background);
 
@@ -277,4 +277,8 @@ section {
 
 .channel_list_hidden {
     display: none;
+}
+
+.button_icon_flipped {
+    rotate: 180deg;
 }
