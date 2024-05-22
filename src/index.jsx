@@ -25,6 +25,7 @@ const getChannelID = async (channelHandle, apiKey) => {
     return null
 }
 
+
 const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
 
     const playlistId = `UULF${channelId.slice(2)}`
@@ -39,8 +40,12 @@ const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
         +`${pageToken}`
     
     )
-    
-    return await result.json()
+
+    if (result.ok) {
+        return await result.json()
+    }
+
+    return null
 }
 
 const App = () => {
@@ -288,7 +293,6 @@ const App = () => {
 
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
     React.useEffect(() => {
-
         writeChannelData(channelData)
         writePlaylistDataToCache(playlistData)
     }, [playlistData, channelData])
