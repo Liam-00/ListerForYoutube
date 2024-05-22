@@ -15,9 +15,14 @@ const getChannelID = async (channelHandle, apiKey) => {
     const response_channelId = await fetch (
         `https://www.googleapis.com/youtube/v3/channels?forHandle=${channelHandle}&part=id&key=${apiKey}`
     )
-    const json_channelId = await response_channelId.json();
-    
-    return json_channelId['items'][0]['id'] || null
+
+    if (response_channelId.ok) {
+        const json_channelId = await response_channelId.json();
+        
+        return json_channelId['items'][0]['id']
+    }
+
+    return null
 }
 
 const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
