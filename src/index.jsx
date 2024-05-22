@@ -110,6 +110,13 @@ const App = () => {
         
         //get requested playlist by channel handle
         let id = await getChannelID(FormData.channel_handle, FormData.api_key)
+        
+        //TODO: spawn toast to inform error
+        if (!id) {
+            console.log("error")
+            return null
+        }
+
         let playlist = await getChannelPlaylist(id, FormData.api_key)
         
         //check if channel is cached and update
