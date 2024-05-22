@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom/client'
 import { InputForm } from './components/InputForm.jsx';
 import { VideoCard } from './components/VideoCard.jsx';
 import { ChannelListItem } from './components/ChannelListItem.jsx';
+import { readFormData, readCachedPlaylistData, writePlaylistDataToCache, readChannelData, writeChannelData, writeFormData } from './utils.jsx';
+
+
 
 //API UTILS
 
@@ -37,58 +40,6 @@ const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
 
 const App = () => {
     
-    //HANDLER UTILS=================================================================
-    const CHANNELDATA = "CHANNELDATA"
-    const PLAYLISTDATA = "PLAYLISTDATA"
-    // channelData: {
-    //     channels: {channelIdString: channelNameString},
-    //     currentChannelId: stringId
-    // }
-    // cache: {
-    //     playlists: {
-    //         channelidstring: {
-    //             scrollPosition: int,
-    //             playlistData: []
-    //         }
-    //     },
-    //     channelData: {
-    //         channelId: channelnamestring
-    //     }
-    
-    // }
-
-    
-
-    const writeFormData = (data) => {
-        localStorage.setItem("FormData", JSON.stringify(data))
-    }
- 
-    const readFormData = () => {
-        return JSON.parse(localStorage.getItem("FormData") ?? "null")
-    }
-
-    const readChannelData = () => {
-        let channelData_json = localStorage.getItem(CHANNELDATA);
-
-        return channelData_json ? JSON.parse(channelData_json) : null
-    }
-
-    const writeChannelData = (channelData_new) => {
-        let channelData_json = JSON.stringify(channelData_new)
-        localStorage.setItem(CHANNELDATA, channelData_json)
-    }
-    
-    const readCachedPlaylistData = () => {
-        let playlistData_json = localStorage.getItem(PLAYLISTDATA)
-        return playlistData_json ? JSON.parse(playlistData_json) : null
-    }
-
-    const writePlaylistDataToCache = (playlistData_new) => {
-        let playlistData_json = JSON.stringify(playlistData_new)
-        localStorage.setItem(PLAYLISTDATA, playlistData_json)
-    }
-
-
     //STATE=================================================================
     const [FormData, setFormData] = React.useState(
         () => {
