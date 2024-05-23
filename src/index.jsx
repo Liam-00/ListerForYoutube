@@ -7,7 +7,7 @@ import { ChannelListItem } from './components/ChannelListItem.jsx';
 import { 
     readFormData, readCachedPlaylistData, writePlaylistDataToCache, 
     readChannelData, writeChannelData, writeFormData, readScrollData, writeScrollData, 
-    readCurrentChannel
+    readCurrentChannel, writeCurrentChannel
     } from './utils_storage.jsx';
 
 import { createChannelData, createPlaylistData, createScrollData } from './utils_data.jsx';
