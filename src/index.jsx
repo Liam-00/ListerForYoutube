@@ -326,8 +326,19 @@ const App = () => {
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
     React.useEffect(() => {
         writeChannelData(channelData)
+    }, [channelData])
+
+    React.useEffect(() => {
         writePlaylistDataToCache(playlistData)
-    }, [playlistData, channelData])
+    }, [playlistData])
+
+    React.useEffect(() => {
+        writeScrollData(scrollData)
+    }, [scrollData])
+
+    React.useEffect(() => {
+        writeCurrentChannel(currentChannel)
+    }, [currentChannel])
 
 
     return (
