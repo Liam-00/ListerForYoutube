@@ -10,6 +10,7 @@ import {
     readCurrentChannel
     } from './utils_storage.jsx';
 
+import { createChannelData, createPlaylistData, createScrollData } from './utils_data.jsx';
 
 
 //API UTILS
