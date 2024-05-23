@@ -65,7 +65,13 @@
     }
 
     //CURRENTCHANNEL
+    export const writeCurrentChannel = (currentChannelData) => {
+        let currentChannelData_json = JSON.stringify(currentChannelData)
+        localStorage.setItem(CURRENTCHANNEL, currentChannelData_json)
+    }
+    
     export const readCurrentChannel = () => {
         let currentChannel_json = localStorage.getItem(CURRENTCHANNEL)
         return currentChannel_json ? JSON.parse(currentChannel_json) : null
     }
+
