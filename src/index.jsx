@@ -4,7 +4,11 @@ import ReactDOM from 'react-dom/client'
 import { InputForm } from './components/InputForm.jsx';
 import { VideoCard } from './components/VideoCard.jsx';
 import { ChannelListItem } from './components/ChannelListItem.jsx';
-import { readFormData, readCachedPlaylistData, writePlaylistDataToCache, readChannelData, writeChannelData, writeFormData } from './utils.jsx';
+import { 
+    readFormData, readCachedPlaylistData, writePlaylistDataToCache, 
+    readChannelData, writeChannelData, writeFormData, readScrollData, writeScrollData, 
+    readCurrentChannel
+    } from './utils_storage.jsx';
 
 
 
