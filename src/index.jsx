@@ -349,13 +349,19 @@ const App = () => {
                     handleChange={handleFormChange} 
                     handleSubmit={handleFormSubmit}/>
                 <div className="button_row">
-                        <button className='button' onClick={handleAddChannel}>
+                        <button 
+                        className='button' 
+                        onClick={handleAddChannel}
+                        disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
                                 <use href="/icons/icon_map.svg#i_plus"></use>
                             </svg>
                             Add Channel
                         </button>
-                        <button className='button' onClick={handleReloadChannelPlaylist}>
+                        <button 
+                        className='button' 
+                        onClick={handleReloadChannelPlaylist}
+                        disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
                                 <use href="/icons/icon_map.svg#i_reload"></use>
                             </svg>
