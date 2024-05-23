@@ -77,7 +77,7 @@ const App = () => {
     const [playlistData, setPlaylistData] = React.useState(() => {
         let Data = readCachedPlaylistData()
         if (!Data) {
-            writePlaylistDataToCache({})
+            writePlaylistDataToCache(createPlaylistData())
             return {}
         }
         return Data
@@ -87,10 +87,29 @@ const App = () => {
         let Data = readChannelData() 
 
         if (!Data) {
-            writeChannelData({channels:{}, currentChannel: ""})
-            return {channels:{}, currentChannel: ""}
+            writeChannelData(createChannelData())
+            return {}
         }
         return Data
+    })
+
+    const [scrollData, setScrollData] = React.useState(() => {
+        let Data = readScrollData()
+
+        if (!Data) {
+            writeScrollData(createScrollData())
+        }
+        return Data
+    })
+
+    const [currentChannel, setCurrentChannel] = React.useState(() => {
+        let channel = readCurrentChannel()
+
+        if (!channel) {
+            return ""
+        }
+
+        return channel
     })
 
     const [localPlaylist, setLocalPlaylist] = React.useState(() => {
@@ -98,6 +117,7 @@ const App = () => {
         if (channelData.currentChannel) {
             return playlistData[channelData.currentChannel]
         }
+        
         return []
     })
  
