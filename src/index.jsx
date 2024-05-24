@@ -159,7 +159,7 @@ const App = () => {
         
         //check if channel is cached and update
         let channelId = `${playlist.items[0].snippet.channelId}`
-        let channelName = `${playlist.items[0].snippet.channelName}`
+        let channelName = `${playlist.items[0].snippet.channelTitle}`
 
         let cache_check = Object.keys(channelData.channels).includes(channelId)
         if (cache_check) {
