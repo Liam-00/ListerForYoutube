@@ -125,6 +125,19 @@ const App = () => {
 
 
     //HANDLERS=================================================================
+    const handleScrollToTop = () => {
+        window.scrollTo( {top: 0, left: 0, behavior: "instant"} )
+    }
+
+    const handleToggleChannelListView = () => {
+        showChannelList ? 
+            refChannelList.current.classList.add("channel_list_hidden")
+            :
+            refChannelList.current.classList.remove("channel_list_hidden")
+        
+            setShowChannelList(!showChannelList)
+    }
+
     const handleFormChange = (e) => {
         let newState = {...FormData, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value}
         writeFormData(newState)
@@ -201,10 +214,6 @@ const App = () => {
         setLocalPlaylist(newCompletePlaylistArray)
     }
     
-    const handleScrollToTop = () => {
-        window.scrollTo( {top: 0, left: 0, behavior: "instant"} )
-    }
-
     const handleAddChannel = () => {
         let channelId = localPlaylist[0].items[0].snippet.channelId
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
@@ -221,15 +230,6 @@ const App = () => {
                 [channelId]: localPlaylist
             }
         )
-    }
-
-    const handleToggleChannelListView = () => {
-        showChannelList ? 
-            refChannelList.current.classList.add("channel_list_hidden")
-            :
-            refChannelList.current.classList.remove("channel_list_hidden")
-        
-            setShowChannelList(!showChannelList)
     }
 
     const handleReloadChannelPlaylist = async () => {
