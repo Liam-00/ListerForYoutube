@@ -114,8 +114,8 @@ const App = () => {
 
     const [localPlaylist, setLocalPlaylist] = React.useState(() => {
         
-        if (channelData.currentChannel) {
-            return playlistData[channelData.currentChannel]
+        if (currentChannel) {
+            return playlistData[currentChannel]
         }
         
         return []
@@ -332,12 +332,12 @@ const App = () => {
                         (() => {
                             let result = []
 
-                            for (const channelId in channelData.channels) {
+                            for (const channelId in channelData) {
                                 result.push(
                                     <ChannelListItem 
                                         key={channelId}
                                         channelId={channelId}
-                                        channelName={channelData.channels[channelId]}
+                                        channelName={channelData[channelId]}
                                         clickHandler={() => {handleChannelListItemClick(channelId)}}
                                         removeHandler={() => {handleChannelListItemRemove(channelId)}}
                                     />
