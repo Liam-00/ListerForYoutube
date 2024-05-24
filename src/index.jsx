@@ -163,22 +163,13 @@ const App = () => {
 
         let cache_check = Object.keys(channelData.channels).includes(channelId)
         if (cache_check) {
-            setChannelData(
-                {
-                    ...channelData, 
-                    channels: {...channelData.channels, channelId: channelName},
-                    currentChannel: channelId
-                }
-            )
-            setPlaylistData(
-                {
-                    ...playlistData,
-                    channelId: [playlist]
-                }
-            )
+            setChannelData( createChannelData( {[channelId]: channelName}, channelData ) )
+            setPlaylistData( createPlaylistData( {[chanelId]: [playlist]}, playlistData) )
         }
 
         //set local playlistData
+        if (FormData.do_save_video_results) setCurrentChannel(channelId)
+
         setLocalPlaylist([playlist])
         e.preventDefault()
     }
@@ -196,19 +187,8 @@ const App = () => {
         //update cache if channel already in cache
         let cache_check = Object.keys(channelData.channels).includes(channelId)
         if (cache_check) {
-            setChannelData(
-                {
-                    ...channelData, 
-                    channels: {...channelData.channels, channelId: channelName},
-                    currentChannel: channelId
-                }
-            )
-            setPlaylistData(
-                {
-                    ...playlistData,
-                    channelId: newCompletePlaylistArray
-                }
-            )
+            setChannelData(createChannelData({[channelId]: channelName}, channelData))
+            setPlaylistData(createPlaylistData({[channelId]: playlistData}, playlistData))
         }
 
         setLocalPlaylist(newCompletePlaylistArray)
@@ -217,19 +197,8 @@ const App = () => {
     const handleAddChannel = () => {
         let channelId = localPlaylist[0].items[0].snippet.channelId
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
-        setChannelData(
-            {
-                ...channelData, 
-                channels: {...channelData.channels, [channelId]: channelName},
-                currentChannel: channelId
-            }
-        )
-        setPlaylistData(
-            {
-                ...playlistData,
-                [channelId]: localPlaylist
-            }
-        )
+        setChannelData(createChannelData({[channelId]: channelName}, channelData))
+        setPlaylistData(createPlaylistData({[channelId]: localPlaylist}, playlistData))
     }
 
     const handleReloadChannelPlaylist = async () => {
@@ -254,22 +223,15 @@ const App = () => {
             newPlaylistData.push(nextPlaylist)
         }
 
-        let channelList = Object.keys(channelData.channels)
+        let channelList = Object.keys(channelData)
 
         if ( channelList.includes(channelId) ) {
             
             setChannelData(
-                {
-                    ...channelData, 
-                    channels: {...channelData.channels, channelId: channelName},
-                    currentChannel: channelId
-                }
+                createChannelData({[channelId]: channelName}, channelData)
             )
             setPlaylistData(
-                {
-                    ...playlistData,
-                    channelId: [newPlaylistData]
-                }
+               createPlaylistData({[channelId]: newPlaylistData}, playlistData)
             )
         }
 
@@ -277,13 +239,8 @@ const App = () => {
     }
 
     const handleChannelListItemClick = (channelId) => {
-        setChannelData(
-            {
-                ...channelData,
-                currentChannel: channelId
-            }
-        )
-        setLocalPlaylist(playlistData[`${channelId}`])
+        setCurrentChannel(channelId)
+        setLocalPlaylist(playlistData[channelId])
     }
 
     const handleChannelListItemRemove = (channelId) => {
@@ -294,14 +251,10 @@ const App = () => {
         delete newChannelData.channels[channelId]
 
         setPlaylistData(
-            {
-                ...newPlaylistData,
-            }
+           createPlaylistData(undefined, newPlaylistData)
         )        
         setChannelData(
-            {
-                ...newChannelData,
-            }
+            createChannelData(undefined, newChannelData)
         )
         
     }
