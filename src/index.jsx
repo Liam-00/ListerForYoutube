@@ -106,7 +106,7 @@ const App = () => {
         let channel = readCurrentChannel()
 
         if (!channel) {
-            return ""
+            return null
         }
 
         return channel
@@ -171,6 +171,7 @@ const App = () => {
         if (FormData.do_save_video_results) setCurrentChannel(channelId)
 
         setLocalPlaylist([playlist])
+        setCurrentChannel(null)
         e.preventDefault()
     }
 
@@ -199,6 +200,7 @@ const App = () => {
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
         setChannelData(createChannelData({[channelId]: channelName}, channelData))
         setPlaylistData(createPlaylistData({[channelId]: localPlaylist}, playlistData))
+        setCurrentChannel(channelId)
     }
 
     const handleReloadChannelPlaylist = async () => {
@@ -248,8 +250,13 @@ const App = () => {
         let newChannelData = {...channelData}
 
         delete newPlaylistData[channelId]
-        delete newChannelData.channels[channelId]
-
+        delete newChannelData[channelId]
+        
+        
+        if (localPlaylist[0]?.items[0].snippet.channelId === currentChannel) {
+            setCurrentChannel(null)
+        }
+        
         setPlaylistData(
            createPlaylistData(undefined, newPlaylistData)
         )        
