@@ -161,10 +161,10 @@ const App = () => {
         let channelId = `${playlist.items[0].snippet.channelId}`
         let channelName = `${playlist.items[0].snippet.channelTitle}`
 
-        let cache_check = Object.keys(channelData.channels).includes(channelId)
+        let cache_check = Object.keys(channelData).includes(channelId)
         if (cache_check) {
             setChannelData( createChannelData( {[channelId]: channelName}, channelData ) )
-            setPlaylistData( createPlaylistData( {[chanelId]: [playlist]}, playlistData) )
+            setPlaylistData( createPlaylistData( {[channelId]: [playlist]}, playlistData) )
         }
 
         //set local playlistData
@@ -179,17 +179,17 @@ const App = () => {
         //uses nextpage token and id from currently loaded playlist
         let pageToken = localPlaylist[localPlaylist.length - 1].nextPageToken
         let channelId = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelId
-        let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelName
+        let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelTitle
 
         let nextPlaylistSet = await getChannelPlaylist(channelId, FormData.api_key, pageToken)
         
         let newCompletePlaylistArray = [...localPlaylist, nextPlaylistSet]
         
         //update cache if channel already in cache
-        let cache_check = Object.keys(channelData.channels).includes(channelId)
+        let cache_check = Object.keys(channelData).includes(channelId)
         if (cache_check) {
-            setChannelData(createChannelData({[channelId]: channelName}, channelData))
-            setPlaylistData(createPlaylistData({[channelId]: playlistData}, playlistData))
+            setChannelData(createChannelData( {[channelId]: channelName}, channelData) )
+            setPlaylistData(createPlaylistData({[channelId]: newCompletePlaylistArray}, playlistData))
         }
 
         setLocalPlaylist(newCompletePlaylistArray)
