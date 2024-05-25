@@ -23,7 +23,6 @@ const getChannelID = async (channelHandle, apiKey) => {
     const json_channelId = await response_channelId.json();
 
     if (json_channelId.items) {
-        console.log(json_channelId)
         return json_channelId['items'][0]['id']
     }
 
@@ -151,7 +150,6 @@ const App = () => {
         
         //TODO: spawn toast to inform error
         if (!id) {
-            console.log("error")
             return null
         }
 
