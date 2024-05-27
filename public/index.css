@@ -90,6 +90,12 @@ section {
         transform: translateX(-3px);
     }
 
+    &:disabled {
+        border-color: grey;
+        background-color: grey;
+        cursor: default;
+    }
+
     & svg {
         height: 1.rem;
         width: 1.3rem;
