@@ -261,7 +261,6 @@ const App = () => {
         setChannelData(
             createChannelData(undefined, newChannelData)
         )
-        
     }
 
     //SCROLL POSITION HANDLING
