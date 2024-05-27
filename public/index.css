@@ -71,9 +71,11 @@ section {
     background-color: var(--ui_background);
     padding: 5px 1rem 7px 1rem;
     user-select: none;
+    border:none;
     border-top: 3px solid white;
     border-left: 3px solid white;
     border-bottom: 1px solid black;
+
 
     font-size: 1rem;
     font-weight: bold;
