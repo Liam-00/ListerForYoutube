@@ -268,18 +268,19 @@ const App = () => {
     React.useEffect (() => {
         
         //RESTORE STORED SCROLL POSITION
-        let ScrollPositionJSON = localStorage.getItem("ScrollPosition")
-        if (ScrollPositionJSON && FormData.do_save_video_results) window.scrollTo( {top: JSON.parse(ScrollPositionJSON), left: 0, behavior: "instant"} )
+        
+        if (currentChannel) window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
 
         //LISTENER THAT STORES SCROLL POSITION
         const handlescroll = (e) => {
-            localStorage.setItem("ScrollPosition", JSON.stringify(window.scrollY))
+            setScrollData(createScrollData({[currentChannel]: window.scrollY}, scrollData))
         }
         
-        window.addEventListener("scroll", handlescroll )
+        if (currentChannel) window.addEventListener("scrollend", handlescroll )
 
-        return () => window.removeEventListener("scroll", handlescroll)
-    }, [])
+        return () => window.removeEventListener("scrollend", handlescroll)
+    }, [currentChannel])
+
 
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
     React.useEffect(() => {
