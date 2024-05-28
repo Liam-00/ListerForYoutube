@@ -205,7 +205,7 @@ const App = () => {
 
     const handleReloadChannelPlaylist = async () => {
         let channelId = localPlaylist[0].items[0].snippet.channelId
-        let channelName = localPlaylist[0].items[0].snippet.channelName
+        let channelName = localPlaylist[0].items[0].snippet.channelTitle
 
         //construct new playlistdata
         let playlistCount = localPlaylist.length
