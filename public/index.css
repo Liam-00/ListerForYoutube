@@ -67,6 +67,7 @@ section {
     align-content: center;
     justify-content: center;
     gap: 0.5rem;
+    width: 13rem;
 
     background-color: var(--ui_background);
     padding: 5px 1rem 7px 1rem;
