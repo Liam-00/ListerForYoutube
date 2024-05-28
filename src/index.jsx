@@ -154,6 +154,8 @@ const App = () => {
         }
 
         let playlist = await getChannelPlaylist(id, FormData.api_key)
+
+        if (!playlist) return null
         
         //check if channel is cached and update
         let channelId = `${playlist.items[0].snippet.channelId}`
