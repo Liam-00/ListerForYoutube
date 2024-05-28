@@ -311,7 +311,7 @@ const App = () => {
                 <div className="button_row">
                         <button 
                         className='button' 
-                        onClick={handleAddChannel}
+                        onMouseDown={handleAddChannel}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
                                 <use href="/icons/icon_map.svg#i_plus"></use>
@@ -320,14 +320,16 @@ const App = () => {
                         </button>
                         <button 
                         className='button' 
-                        onClick={handleReloadChannelPlaylist}
+                        onMouseDown={handleReloadChannelPlaylist}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
                                 <use href="/icons/icon_map.svg#i_reload"></use>
                             </svg>
                             Reload
                         </button>
-                        <button className='button' onClick={handleToggleChannelListView}>
+                        <button 
+                        className='button' 
+                        onMouseDown={handleToggleChannelListView}>
                             <svg viewBox='0 0 48 48'>
                                 <use href={showChannelList ? "/icons/icon_map.svg#i_chevron_up": "/icons/icon_map.svg#i_chevron"}></use>
                             </svg>
