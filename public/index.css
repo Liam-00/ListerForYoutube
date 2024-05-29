@@ -58,6 +58,8 @@ section {
     display: flex;
     flex-direction: column;
     padding: 0.5rem 2rem;
+    view-transition-name: controls;
+    z-index: 100;
 }
 
 .button {
