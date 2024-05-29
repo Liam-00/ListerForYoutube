@@ -267,7 +267,11 @@ const App = () => {
         
         //RESTORE STORED SCROLL POSITION
         
-        if (currentChannel) window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
+        if (currentChannel) {
+            window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
+        } else {
+            window.scrollTo( {top: 0, left: 0, behavior: "instant"})
+        }
 
         //LISTENER THAT STORES SCROLL POSITION
         const handlescroll = (e) => {
