@@ -63,10 +63,10 @@ const App = () => {
             let data = readFormData()
 
             return {
-                channel_handle: (data?.channel_handle && data?.do_save_video_results) ? data.channel_handle : "",
+                channel_handle: data?.channel_handle ? data.channel_handle : "",
                 api_key: data?.api_key && data?.do_save_api_key ? data.api_key : "",
                 do_save_api_key: data?.do_save_api_key ?? false,
-                do_save_video_results: data?.do_save_video_results ?? false
+                do_remember_playlist: data?.do_remember_playlist ?? false
             }
         }
     )
@@ -113,7 +113,7 @@ const App = () => {
 
     const [localPlaylist, setLocalPlaylist] = React.useState(() => {
         
-        if (currentChannel) {
+        if (FormData.do_remember_playlist && currentChannel) {
             return playlistData[currentChannel]
         }
         
@@ -166,9 +166,6 @@ const App = () => {
             setChannelData( createChannelData( {[channelId]: channelName}, channelData ) )
             setPlaylistData( createPlaylistData( {[channelId]: [playlist]}, playlistData) )
         }
-
-        //set local playlistData
-        if (FormData.do_save_video_results) setCurrentChannel(channelId)
 
         setLocalPlaylist([playlist])
         setCurrentChannel(null)
