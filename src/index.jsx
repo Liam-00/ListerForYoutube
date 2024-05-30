@@ -63,7 +63,7 @@ const App = () => {
             let data = readFormData()
 
             return {
-                channel_handle: data?.channel_handle ? data.channel_handle : "",
+                channel_handle: "", //data?.channel_handle ? data.channel_handle : "",
                 api_key: data?.api_key && data?.do_save_api_key ? data.api_key : "",
                 do_save_api_key: data?.do_save_api_key ?? false,
                 do_remember_playlist: data?.do_remember_playlist ?? false
