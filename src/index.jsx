@@ -197,6 +197,7 @@ const App = () => {
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
         setChannelData(createChannelData({[channelId]: channelName}, channelData))
         setPlaylistData(createPlaylistData({[channelId]: localPlaylist}, playlistData))
+        setScrollData(createScrollData({[channelId]: window.scrollY}, scrollData))
         setCurrentChannel(channelId)
     }
 
@@ -245,12 +246,13 @@ const App = () => {
     const handleChannelListItemRemove = (channelId) => {
         let newPlaylistData = {...playlistData}
         let newChannelData = {...channelData}
+        let newScrollData = {...scrollData}
 
         delete newPlaylistData[channelId]
         delete newChannelData[channelId]
+        delete newScrollData[channelId]
         
-        
-        if (localPlaylist[0]?.items[0].snippet.channelId === currentChannel) {
+        if (channelId === currentChannel) {
             setCurrentChannel(null)
         }
         
@@ -259,6 +261,9 @@ const App = () => {
         )        
         setChannelData(
             createChannelData(undefined, newChannelData)
+        )
+        setScrollData(
+            createScrollData(undefined, newScrollData)
         )
     }
 
