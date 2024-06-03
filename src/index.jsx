@@ -339,7 +339,7 @@ const App = () => {
                             <svg viewBox='0 0 48 48'>
                                 <use href={showChannelList ? "/icons/icon_map.svg#i_chevron_up": "/icons/icon_map.svg#i_chevron"}></use>
                             </svg>
-                            {showChannelList ? "Hide Channels" : "Show Channels"}
+                            {showChannelList ? "Channels" : "Channels"}
                         </button>
                 </div>
                 <div className='channel_list' ref={refChannelList}>
