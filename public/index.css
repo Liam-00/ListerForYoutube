@@ -1,6 +1,6 @@
 :root {
     --text_color: rgb(95, 95, 95);
-    --ui_background: rgb(222, 222, 222);;
+    --ui_background: rgb(222, 222, 222);
 }
 
 body {
@@ -8,7 +8,7 @@ body {
     font-family: 'Varela Round','Trebuchet MS';
     color: hsla(0, 0%, 10%, 100%);
     margin: 0px;
-    font-size: 1rem;
+    font-size: 16px;
 }
 
 textarea, input {
@@ -30,18 +30,22 @@ p {
 
 main {
     align-items: center;
-}
 
-main section:not(:first-child) {
-    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    
+    margin: 0 auto;
+    max-width: 50rem;
+    
 }
 
 section {
     box-shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
     background-color: hsl(356, 83%, 61%);
-    padding: 2rem;
-    max-width: 50rem;
-    margin: 0 auto;
+    padding: 0.5rem;
+    
     & h1 {
         color: hsla(0, 0%, 0%, 40%);
         font-size: 2rem;
@@ -54,10 +58,12 @@ section {
 .controls_section {
     position: sticky;
     min-height: 5rem;
-    top:0px;
+
+    top: 0px;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 2rem;
+    gap:1rem;
     view-transition-name: controls;
     z-index: 100;
 }
@@ -69,7 +75,6 @@ section {
     align-content: center;
     justify-content: center;
     gap: 0.5rem;
-    width: 13rem;
 
     background-color: var(--ui_background);
     padding: 5px 1rem 7px 1rem;
@@ -109,23 +114,29 @@ section {
 
 .button_floating {
     position: fixed;
-    bottom: 6rem;
-    right: 10rem;
+    bottom: 20rem;
+    right: 10%;
     height: 3rem;
 }
 
 .button_row {
     display:inline-flex;
     gap: 1rem;
-     margin-top: 1rem;
+    margin-top: 1rem;
     align-self: flex-end;
+    width: 100%;
+
+    & > .button {
+        flex-grow: 1;
+
+    }
 }
 
 
 .videocard {
     display: flex;
     align-items: start;
-    height: 7rem;
+    height: 6rem;
     margin-top: 0.8rem;
     opacity: 0;
     & > a {
@@ -142,21 +153,32 @@ section {
 }
 
 .videoinfoblock {
-    padding-left: 1rem;
-    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
     background: linear-gradient(to right, hsla(0, 0%, 100%, 15%), hsla(0, 0%, 0%, 0%));
     align-self: stretch;
-    flex-grow: 1;
+    
+    width: calc(100%);
+    
 
     & h2 {
         font-size: 1.1rem;
-        color:black;
-        text-decoration: underline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        
+
+        & > a {
+            font-size: 1.1rem;
+            color:black;
+            text-decoration: underline;
+        }
     }
 
     & p {
-        font-weight: bold;
-        
+        font-weight: bold;        
         margin-top: 0.5rem;
     }
 }
@@ -169,6 +191,7 @@ section {
 
 .inputform input[type="text"] {
     padding-left: 1rem;
+    min-height: 2rem;
     border:1px solid transparent;
     outline:none;
     background-color: var(--ui_background);
@@ -212,6 +235,7 @@ section {
 .inputform_row {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap:1rem;
     justify-items: stretch;
     & > * {
@@ -246,7 +270,7 @@ section {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
-    padding: 1rem 0rem;
+    padding: 0rem;
 
     & .channel_item {
         display: flex;
@@ -292,4 +316,21 @@ section {
 
 .button_icon_flipped {
     rotate: 180deg;
+}
+
+
+
+@media (aspect-ratio <= 1/1) {
+    main {
+        flex-direction: column-reverse;
+    }
+    .controls_section {
+        position: sticky;
+        bottom: 0;
+        top: unset;
+        
+        box-shadow: 0px -5px 5px  rgba(0, 0, 0, 0.698);
+    }
+
+
 }
