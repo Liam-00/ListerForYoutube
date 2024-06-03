@@ -15,9 +15,11 @@ const VideoCard = ({title, date, thumbnail, id}) => {
                 <img src={thumbnail} onLoad={handleImgLoad} />
             </a>
             <div className="videoinfoblock">
-                <a href={link}> 
-                    <h2>{title}</h2>
-                </a>
+                <h2>
+                    <a href={link}> 
+                        {title}
+                    </a>
+                </h2>
                 <p>{date}</p>    
             </div>
         </div>
