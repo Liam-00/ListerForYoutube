@@ -7,6 +7,14 @@ export default {
         path: path.join(process.cwd(), '/public'),
         filename: "bundle.js"
     },
+    watch: true,
+    devServer: {
+      static: {
+        directory: path.join(process.cwd(), '/public')
+      },
+      port: 9000
+    },
+    devtool: 'eval-source-map',
     module: {
         rules: [
           {
