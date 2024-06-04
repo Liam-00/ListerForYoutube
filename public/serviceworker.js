@@ -1,5 +1,7 @@
+
 const app_cache_static = "app_cache_static"
 const app_cache_images = "app_cache_images"
+const CACHE_MAX = 200
 
 const asset_static_paths = [
     '/',
@@ -17,15 +19,21 @@ self.addEventListener('install', (event) => {
         //open cache for static assets
         let cache = await caches.open(app_cache_static)
         //add all paths - addAll() will fetch and store every path in its list
-        await cache.addAll(asset_static_paths)
+        //await cache.addAll(asset_static_paths)
     }
 
     //make serviceworker wait for caching to finish resolving promises
-    event.waitUntil(cacheStaticAssets())
+    //event.waitUntil(cacheStaticAssets())
 })
 
-// self.addEventListener('activate', (event) => {
-//     console.log("Service Worker: active")
+// self.addEventListener('activate', async (event) => {
+//     let cache = await caches.open(app_cache_images)
+
+//     let keys = await cache.keys()
+
+//     console.log(keys.map( key => {
+//         return key.headers
+//     }))
 // })
 
 const handleFetch = (event) => {
