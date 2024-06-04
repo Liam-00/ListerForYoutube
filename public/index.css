@@ -1,10 +1,12 @@
 :root {
     --text_color: rgb(95, 95, 95);
     --ui_background: rgb(222, 222, 222);
+    --ui_main:  hsl(0, 78%, 59%);
+    --ui_body_background: hsl(0, 0%, 10%);
 }
 
 body {
-    background-color: hsl(0, 0%, 11%);
+    background-color: var(--ui_body_background);
     font-family: 'Varela Round','Trebuchet MS';
     color: hsla(0, 0%, 10%, 100%);
     margin: 0px;
@@ -43,7 +45,7 @@ main {
 
 section {
     box-shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
-    background-color: hsl(356, 83%, 61%);
+    background-color: var(--ui_main);
     padding: 0.5rem;
     
     & h1 {
@@ -114,7 +116,7 @@ section {
 
 .button_floating {
     position: fixed;
-    bottom: 20rem;
+    bottom: 30%;
     right: 10%;
     height: 3rem;
 }
