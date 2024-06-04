@@ -320,7 +320,7 @@ const App = () => {
                         onMouseDown={handleAddChannel}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
-                                <use href="/icons/icon_map.svg#i_plus"></use>
+                                <use href="/icons/app_icons_map.svg#i_plus"></use>
                             </svg>
                             Add Channel
                         </button>
@@ -329,7 +329,7 @@ const App = () => {
                         onMouseDown={handleReloadChannelPlaylist}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
-                                <use href="/icons/icon_map.svg#i_reload"></use>
+                                <use href="/icons/app_icons_map.svg#i_reload"></use>
                             </svg>
                             Reload
                         </button>
@@ -337,7 +337,7 @@ const App = () => {
                         className='button' 
                         onMouseDown={handleToggleChannelListView}>
                             <svg viewBox='0 0 48 48'>
-                                <use href={showChannelList ? "/icons/icon_map.svg#i_chevron_up": "/icons/icon_map.svg#i_chevron"}></use>
+                                <use href={showChannelList ? "/icons/app_icons_map.svg#i_chevron_up": "/icons/app_icons_map.svg#i_chevron"}></use>
                             </svg>
                             {showChannelList ? "Channels" : "Channels"}
                         </button>

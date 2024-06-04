@@ -22,7 +22,7 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
                     onChange={handleChange}
                     autoComplete="off"/>
                 <button type="submit" id="button_submit" className="button inputform_button">
-                    <svg viewBox='0 0 48 48'><use href="/icons/icon_map.svg#i_search"></use></svg>Get Videos
+                    <svg viewBox='0 0 48 48'><use href="/icons/app_icons_map.svg#i_search"></use></svg>Get Videos
                 </button>
             </div>
             

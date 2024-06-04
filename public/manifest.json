@@ -1,6 +1,6 @@
 {
-    "name": "tester app",
-    "short_name": "test",
+    "name": "Lister For Youtube",
+    "short_name": "Lister",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#000000",
@@ -8,9 +8,10 @@
     "orientation": "landscape-primary",
     "icons": [
         {
-            "src": "icon.png",
-            "type": "image/png",
-            "sizes": "144x144"
+            "src": "icons/icon.svg",
+            "type": "svg+xml",
+            "sizes": "any",
+            "purpose": "any"
         }
     ]    
 }
