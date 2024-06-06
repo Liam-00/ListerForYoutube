@@ -12,6 +12,7 @@ import {
 
 import { createChannelData, createPlaylistData, createScrollData } from './utils_data.jsx';
 
+import "./index.css"
 
 //API UTILS
 
