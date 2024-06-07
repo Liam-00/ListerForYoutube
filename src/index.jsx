@@ -14,6 +14,8 @@ import { createChannelData, createPlaylistData, createScrollData } from './utils
 
 import "./index.css"
 
+import icon_map from './icons/app_icons_map.svg'
+
 //API UTILS
 
 const getChannelID = async (channelHandle, apiKey) => {
@@ -321,7 +323,7 @@ const App = () => {
                         onMouseDown={handleAddChannel}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
-                                <use href="/icons/app_icons_map.svg#i_plus"></use>
+                                <use href={`${icon_map}#i_plus`}></use>
                             </svg>
                             Add Channel
                         </button>
@@ -330,7 +332,7 @@ const App = () => {
                         onMouseDown={handleReloadChannelPlaylist}
                         disabled={localPlaylist.length > 0 ? false : true}>
                             <svg viewBox='0 0 48 48'>
-                                <use href="/icons/app_icons_map.svg#i_reload"></use>
+                                <use href={`${icon_map}#i_reload`}></use>
                             </svg>
                             Reload
                         </button>
@@ -338,7 +340,7 @@ const App = () => {
                         className='button' 
                         onMouseDown={handleToggleChannelListView}>
                             <svg viewBox='0 0 48 48'>
-                                <use href={showChannelList ? "/icons/app_icons_map.svg#i_chevron_up": "/icons/app_icons_map.svg#i_chevron"}></use>
+                                <use href={showChannelList ? `${icon_map}#i_chevron_up`: `${icon_map}#i_chevron`}></use>
                             </svg>
                             {showChannelList ? "Channels" : "Channels"}
                         </button>
