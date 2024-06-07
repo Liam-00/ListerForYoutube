@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="1024"
-   height="1024"
-   viewBox="0 0 1024 1024"
+   width="1000"
+   height="1000"
+   viewBox="0 0 1000 1000"
    version="1.1"
    id="svg1"
    xmlns="http://www.w3.org/2000/svg"
@@ -15,15 +15,16 @@
      id="layer2"
      style="fill:#ffffff;fill-opacity:1">
     <circle
-       style="display:inline;fill:#000000;fill-opacity:1;stroke-width:8.585"
+       style="display:inline;fill:#000000;fill-opacity:1;stroke-width:7.33828"
        id="path8"
-       cx="512"
-       cy="512"
-       r="497.20428" />
+       cx="500"
+       cy="500"
+       r="425" />
   </g>
   <g
      id="layer1"
-     style="display:inline;fill:#ffffff;fill-opacity:1">
+     style="display:inline;fill:#ffffff;fill-opacity:1"
+     transform="matrix(0.74158833,0,0,0.74158833,126.55396,120.30678)">
     <g
        id="g3"
        transform="translate(7.4646515,-91.109822)"
