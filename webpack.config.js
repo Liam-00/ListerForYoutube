@@ -7,6 +7,7 @@ export default {
     entry: ["/src/index.jsx", "/src/app.js"],
     output: {
         path: path.join(process.cwd(), '/dist'),
+        clean: true
         
     },
     devServer: {
@@ -32,8 +33,11 @@ export default {
           },
           {
             test: /\.json$/,
-            type: 'asset/resource'
-          }
+            type: 'asset/resource',
+            generator: {
+              filename: '[name].json'
+            }
+          },
           {
             test: /\.css$/,
             use: [MiniCssExtractPlugin.loader, 'css-loader']
@@ -42,8 +46,12 @@ export default {
             test: /\.(png|svg|jpg|jpeg|gif|svg#.*)$/i,
             type: 'asset/resource',
             generator: {
-              outputPath: 'icons/'
+              filename: 'icons/[name][ext]'
             }
+          },
+          {
+            test: /\.json/,
+            type: 'asset/resource'
           },
           {
             test: /\.html$/,
