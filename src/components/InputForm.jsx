@@ -33,19 +33,23 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
             
             <div className="checkbox_row">
 
-                <label htmlFor="do_save_api_key" onClick={handleChange}>
+                <label>
                     <input id="do_save_api_key" 
                            checked={formState.do_save_api_key} 
                            type="checkbox" 
-                           name="do_save_api_key" /> Save API Key
+                           name="do_save_api_key" 
+                           onChange={handleChange} /> Save API Key
                 </label>
 
-                <label htmlFor="do_remember_playlist" onClick={handleChange}>
+                <label>
                     <input id="do_remember_playlist" 
                            checked={formState.do_remember_playlist} 
                            type="checkbox" 
-                           name="do_remember_playlist" /> Remember Last Playlist
+                           name="do_remember_playlist" 
+                           onChange={handleChange} /> Remember Last Playlist
                 </label>
+
+
                 
             </div>
         </form>
