@@ -4,7 +4,10 @@ import icon_map from '../icons/app_icons_map.svg'
 
 const InputForm = ({formState, handleChange, handleSubmit}) => {
     return (
-        <form className="inputform inputform_col" onSubmit={handleSubmit} method="post" action="javascript:void(0);" >
+        <form className="inputform inputform_col" 
+              onSubmit={handleSubmit} 
+              method="post" 
+              action="javascript:void(0);" >
             <div className="inputform_row">
                 <input 
                     id="textbox_channelname" 
@@ -31,11 +34,17 @@ const InputForm = ({formState, handleChange, handleSubmit}) => {
             <div className="checkbox_row">
 
                 <label htmlFor="do_save_api_key" onClick={handleChange}>
-                    <input id="do_save_api_key" checked={formState.do_save_api_key} type="checkbox" name="do_save_api_key"  /> Save API Key
+                    <input id="do_save_api_key" 
+                           checked={formState.do_save_api_key} 
+                           type="checkbox" 
+                           name="do_save_api_key" /> Save API Key
                 </label>
 
                 <label htmlFor="do_remember_playlist" onClick={handleChange}>
-                    <input id="do_remember_playlist" checked={formState.do_remember_playlist} type="checkbox" name="do_remember_playlist" /> Remember Last Playlist
+                    <input id="do_remember_playlist" 
+                           checked={formState.do_remember_playlist} 
+                           type="checkbox" 
+                           name="do_remember_playlist" /> Remember Last Playlist
                 </label>
                 
             </div>
