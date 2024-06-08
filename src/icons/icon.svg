@@ -12,6 +12,17 @@
   <defs
      id="defs1" />
   <g
+     id="layer3"
+     style="fill:#ffffff;fill-opacity:1">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:8.7"
+       id="rect3"
+       width="1000"
+       height="1000"
+       x="0"
+       y="0" />
+  </g>
+  <g
      id="layer2"
      style="fill:#ffffff;fill-opacity:1">
     <circle
@@ -24,7 +35,7 @@
   <g
      id="layer1"
      style="display:inline;fill:#ffffff;fill-opacity:1"
-     transform="matrix(0.83435149,0,0,0.83435149,76.263116,72.812043)">
+     transform="matrix(0.89206307,0,0,0.89206307,49.075222,43.263715)">
     <g
        id="g3"
        transform="translate(7.4646515,-91.109822)"
