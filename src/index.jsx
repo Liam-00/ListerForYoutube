@@ -147,6 +147,7 @@ const App = () => {
     }
 
     const handleFormSubmit = async (e) => {
+        e.preventDefault()
         
         //get requested playlist by channel handle
         let id = await getChannelID(FormData.channel_handle, FormData.api_key)
@@ -172,7 +173,6 @@ const App = () => {
 
         setLocalPlaylist([playlist])
         setCurrentChannel(null)
-        e.preventDefault()
     }
 
     const handleLoadMore = async () => {

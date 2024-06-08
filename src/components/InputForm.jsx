@@ -5,9 +5,8 @@ import icon_map from '../icons/app_icons_map.svg'
 const InputForm = ({formState, handleChange, handleSubmit}) => {
     return (
         <form className="inputform inputform_col" 
-              onSubmit={handleSubmit} 
-              method="post" 
-              action="javascript:void(0);" >
+              onSubmit={handleSubmit}
+              method="post">
             <div className="inputform_row">
                 <input 
                     id="textbox_channelname" 
