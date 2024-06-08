@@ -39,6 +39,13 @@ export default {
             }
           },
           {
+            test: /serviceworker.js/,
+            type: 'asset/resource',
+            generator: {
+              filename: '[name][ext]'
+            }
+          },
+          {
             test: /\.css$/,
             use: [MiniCssExtractPlugin.loader, 'css-loader']
           },
@@ -48,10 +55,6 @@ export default {
             generator: {
               filename: 'icons/[name][ext]'
             }
-          },
-          {
-            test: /\.json/,
-            type: 'asset/resource'
           },
           {
             test: /\.html$/,
