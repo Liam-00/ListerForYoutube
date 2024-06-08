@@ -298,7 +298,7 @@ section {
             width: 1rem;
             height: 1rem;
 
-            stroke: black;
+            stroke: var(--text_color);
             border-radius: 100px;
             padding: 2px;
             background-color: transparent;
