@@ -369,7 +369,7 @@ const App = () => {
             <section>
                 <div>
                     <div className="section_header">
-                        <h1>{localPlaylist.length > 0 ? localPlaylist[0].items[0].snippet.channelTitle : ""}</h1>
+                        <h1>{localPlaylist.length > 0 ? localPlaylist[0].items[0].snippet.channelTitle : "Welcome to Lister For Youtube!"}</h1>
                     </div>
                     {
                         localPlaylist.length > 0 ?
