@@ -88,14 +88,14 @@ section {
     gap: 0.5rem;
 
     background-color: var(--ui_background);
-    padding: 5px 1rem 7px 1rem;
+    padding: 5px 1rem 6px 1rem;
     user-select: none;
     border:none;
     border-top: 3px solid white;
     border-left: 3px solid white;
     border-bottom: 1px solid black;
 
-
+    font-family: 'Varela Round'; 
     font-size: 1rem;
     font-weight: bold;
     letter-spacing: 0.1rem;
