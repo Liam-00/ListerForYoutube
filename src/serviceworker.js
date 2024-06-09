@@ -10,7 +10,8 @@ const static_paths = [
     '/main.js',
     '/manifest.json',
     '/icons/icon.svg',
-    '/icons/app_icons_map.svg'
+    '/icons/app_icons_map.svg',
+    '/fonts/VarelaRound-Regular.ttf'
 ]
 
 

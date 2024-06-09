@@ -39,6 +39,13 @@ export default {
             }
           },
           {
+            test: /\.ttf$/,
+            type: 'asset/resource',
+            generator: {
+              filename: 'fonts/[name][ext]'
+            }
+          },
+          {
             test: /serviceworker.js/,
             type: 'asset/resource',
             generator: {
@@ -47,7 +54,7 @@ export default {
           },
           {
             test: /\.css$/,
-            use: [MiniCssExtractPlugin.loader, 'css-loader']
+            use: [MiniCssExtractPlugin.loader, {loader: 'css-loader', options: {url: true, import: true}}],
           },
           {
             test: /\.(png|svg|jpg|jpeg|gif|svg#.*)$/i,
