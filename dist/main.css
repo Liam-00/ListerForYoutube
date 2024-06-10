@@ -1,0 +1,348 @@
+@font-face {
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(fonts/VarelaRound-Regular.ttf);
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+    --text_color: rgb(95, 95, 95);
+    --ui_background: rgb(222, 222, 222);
+    --ui_main:  hsl(0, 78%, 59%);
+    --ui_body_background: hsl(0, 0%, 10%);
+}
+
+body {
+    background-color: var(--ui_body_background);
+    font-family: 'Varela Round','Trebuchet MS';
+    color: hsla(0, 0%, 10%, 100%);
+    margin: 0px;
+    font-size: 16px;
+}
+
+textarea, input {
+    font: inherit;
+    letter-spacing: inherit;
+    word-spacing: inherit;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0px;
+}
+
+
+p {
+    font-size: 1rem;
+    margin: 0px;
+}
+
+main {
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    
+    margin: 0 auto;
+    max-width: 50rem;
+    
+}
+
+section {
+    box-shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
+    background-color: var(--ui_main);
+    padding: 0.5rem;
+    
+    & h1 {
+        color: hsla(0, 0%, 0%, 40%);
+        font-size: 2rem;
+        text-transform: uppercase;
+        font-style: italic;
+    }
+
+}
+
+.controls_section {
+    position: sticky;
+    min-height: 5rem;
+
+    top: 0px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap:1rem;
+    view-transition-name: controls;
+    z-index: 100;
+}
+
+.button {
+    
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    background-color: var(--ui_background);
+    padding: 5px 1rem 6px 1rem;
+    user-select: none;
+    border:none;
+    border-top: 3px solid white;
+    border-left: 3px solid white;
+    border-bottom: 1px solid black;
+
+    font-family: 'Varela Round'; 
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    color: var(--text_color);
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active {
+        transform: translateX(-3px);
+    }
+
+    &:disabled {
+        border-color: grey;
+        background-color: grey;
+        cursor: default;
+    }
+
+    & svg {
+        height: 1.rem;
+        width: 1.3rem;
+        stroke: var(--text_color);
+        fill:none;
+    }
+}
+
+.button_floating {
+    position: fixed;
+    bottom: 30%;
+    right: 10%;
+    height: 3rem;
+}
+
+.button_row {
+    display:inline-flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-self: flex-end;
+    width: 100%;
+
+    & > .button {
+        flex-grow: 1;
+
+    }
+}
+
+
+.videocard {
+    display: flex;
+    align-items: start;
+    height: 6rem;
+    margin-top: 0.8rem;
+    opacity: 0;
+    & > a {
+        text-decoration: none;
+        height: 100%;
+        & img {
+            height: 100%;
+        }
+    }
+}
+
+.videocard_visible{
+    opacity: 1;
+}
+
+.videoinfoblock {
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    background: linear-gradient(to right, hsla(0, 0%, 100%, 15%), hsla(0, 0%, 0%, 0%));
+    align-self: stretch;
+    
+    width: calc(100%);
+    
+
+    & h2 {
+        font-size: 1.1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        
+
+        & > a {
+            font-size: 1.1rem;
+            color:black;
+            text-decoration: underline;
+        }
+    }
+
+    & p {
+        font-weight: bold;        
+        margin-top: 0.5rem;
+    }
+}
+
+.videolist_button {
+    width: 100%;
+    height: 3rem;
+    margin-top:1rem;
+}
+
+.inputform input[type="text"] {
+    padding-left: 1rem;
+    min-height: 2rem;
+    border:1px solid transparent;
+    outline:none;
+    background-color: var(--ui_background);
+    &:active {
+        border: 1px solid black;
+    }
+    &:focus {
+        border: 1px solid black;
+    }
+}
+
+.inputform input[type="checkbox"] {
+    margin: 0px;
+    width: 1rem;
+    height: 1rem;
+    accent-color: rgb(16, 16, 16);
+    
+}
+
+.checkbox_row {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.inputform label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.inputform_col {
+    display:flex;
+    flex-direction: column;
+    
+    &:not(:first-child) {
+        margin-top: 1rem;
+    }
+}
+
+.inputform_row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:1rem;
+    justify-items: stretch;
+    & > * {
+        flex-grow: 1;
+    }
+}
+
+.flex_row {
+    display: flex;
+}
+
+.flex_col {
+    display:flex;
+    flex-direction: column;
+}
+
+.section_header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.button_set {
+    display:flex;
+    gap: 0.5rem;
+    height: 3rem;
+}
+
+
+
+.channel_list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0rem;
+
+    & .channel_item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        border: 1px solid var(--text_color);
+        color: var(--text_color);
+        font-weight: bold;
+        font-size: 1rem;
+
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        background: var(--ui_background);
+
+        user-select: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        & svg {
+            width: 1rem;
+            height: 1rem;
+
+            stroke: var(--text_color);
+            border-radius: 100px;
+            padding: 2px;
+            background-color: transparent;
+            
+            &:hover {
+                background-color: hsla(0, 0%, 0%, 20%);
+                
+            }
+        }
+
+    }
+}
+
+.channel_list_hidden {
+    display: none;
+}
+
+.button_icon_flipped {
+    rotate: 180deg;
+}
+
+
+
+@media (aspect-ratio <= 1/1) {
+    main {
+        flex-direction: column-reverse;
+    }
+    .controls_section {
+        position: sticky;
+        bottom: 0;
+        top: unset;
+        
+        box-shadow: 0px -5px 5px  rgba(0, 0, 0, 0.698);
+    }
+
+
+}
+
