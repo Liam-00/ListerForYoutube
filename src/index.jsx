@@ -209,12 +209,13 @@ const App = () => {
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
 
         //construct new playlistdata
-        let playlistCount = localPlaylist.length
         let newBasePlaylist = await getChannelPlaylist(channelId, FormData.api_key)
-        
+
+        if (!newBasePlaylist) return null
+
         let newPlaylistData = [newBasePlaylist]
-    
-        playlistCount--
+        
+        let playlistCount = localPlaylist.length - 1
 
         while (playlistCount > 0) {
             let nextPlaylist = await getChannelPlaylist(
@@ -224,6 +225,7 @@ const App = () => {
             )
 
             newPlaylistData.push(nextPlaylist)
+            playlistCount--
         }
 
         let channelList = Object.keys(channelData)
