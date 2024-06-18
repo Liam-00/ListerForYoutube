@@ -214,9 +214,8 @@ const App = () => {
         if (!newBasePlaylist) return null
 
         let newPlaylistData = [newBasePlaylist]
-        
-        let playlistCount = localPlaylist.length - 1
 
+        let playlistCount = localPlaylist.length - 1
         while (playlistCount > 0) {
             let nextPlaylist = await getChannelPlaylist(
                 channelId, 
@@ -227,7 +226,59 @@ const App = () => {
             newPlaylistData.push(nextPlaylist)
             playlistCount--
         }
+        
+//########################################################################################
+        //FIND IF EXTRA PAGE IS NEEDED
+        //note: List length is always 50. 
 
+        //select the centermost element
+        // let centerElement_list = document.elementsFromPoint(
+        //     window.screen.width / 2,
+        //     window.screen.height / 2
+        // )
+
+        // //pick the videocard item out of that list
+        // let centerElement = null
+
+        // for( let i = 0; i < centerElement_list.length; i++ ) {
+        //     if (centerElement_list[i].classList.contains("videocard")) {
+        //         centerElement = centerElement_list[i]
+        //         break
+        //     }
+        // }
+
+        //FIND NUMBER OF NEW ENTRIES
+        let newElement_count = 0
+        let break_check = false
+        
+        //loop through newPlaylistData constructed so far
+        for (let i_list = 0; i_list < newPlaylistData.length; i_list++) {
+            console.log("looping through lists")
+            //loop through each item of each list in newPlaylistData
+            for (let i_video = 0; i_video < newPlaylistData[i_list].items.length; i_video++) {
+                console.log("looping through videos")
+                //when current, most recent video is found break loops
+                if (newPlaylistData[i_list].items[i_video].id === localPlaylist[0].items[0].id) {
+                    break_check = true
+                    break
+                }
+
+                //otherwise count new videos until previous most recent is found
+                newElement_count ++
+            }
+            if (break_check) break
+        }
+        console.log("New Elements: ", newElement_count)
+
+        //calc height of video card
+        let videocard = document.getElementsByClassName("videocard")[0]
+        let videocard_height = videocard.clientHeight + parseFloat(window.getComputedStyle(videocard).getPropertyValue('margin-top'))
+        
+        let scrollDistance_additional = videocard_height * newElement_count
+//########################################################################################
+
+
+        //update cache if reloaded channel is cached
         let channelList = Object.keys(channelData)
 
         if ( channelList.includes(channelId) ) {
@@ -237,6 +288,12 @@ const App = () => {
             )
             setPlaylistData(
                createPlaylistData({[channelId]: newPlaylistData}, playlistData)
+            )
+            setScrollData(
+                createScrollData(
+                    {[channelId]: scrollData[channelId] + scrollDistance_additional}, 
+                    scrollData
+                )
             )
         }
 
