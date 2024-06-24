@@ -205,6 +205,7 @@ const App = () => {
     }
 
     const handleReloadChannelPlaylist = async () => {
+        //get channel name and id from the current local playlist
         let channelId = localPlaylist[0].items[0].snippet.channelId
         let channelName = localPlaylist[0].items[0].snippet.channelTitle
 
@@ -213,8 +214,10 @@ const App = () => {
 
         if (!newBasePlaylist) return null
 
+        //creating the first entry of the new playlist
         let newPlaylistData = [newBasePlaylist]
 
+        //loop through the number of playlist sets currently loaded to fetch the number of pages that equaals localPlaylist
         let playlistCount = localPlaylist.length - 1
         while (playlistCount > 0) {
             let nextPlaylist = await getChannelPlaylist(
@@ -228,36 +231,16 @@ const App = () => {
         }
         
 //########################################################################################
-        //FIND IF EXTRA PAGE IS NEEDED
-        //note: List length is always 50. 
-
-        //select the centermost element
-        // let centerElement_list = document.elementsFromPoint(
-        //     window.screen.width / 2,
-        //     window.screen.height / 2
-        // )
-
-        // //pick the videocard item out of that list
-        // let centerElement = null
-
-        // for( let i = 0; i < centerElement_list.length; i++ ) {
-        //     if (centerElement_list[i].classList.contains("videocard")) {
-        //         centerElement = centerElement_list[i]
-        //         break
-        //     }
-        // }
-
-        //FIND NUMBER OF NEW ENTRIES
+        //FIND NUMBER OF NEW VIDEO ENTRIES
         let newElement_count = 0
         let break_check = false
         
         //loop through newPlaylistData constructed so far
         for (let i_list = 0; i_list < newPlaylistData.length; i_list++) {
-            console.log("looping through lists")
             //loop through each item of each list in newPlaylistData
             for (let i_video = 0; i_video < newPlaylistData[i_list].items.length; i_video++) {
-                console.log("looping through videos")
-                //when current, most recent video is found break loops
+                //when the 0th index video in localplaylistdata is found in the new data,
+                //break both loops with break_check
                 if (newPlaylistData[i_list].items[i_video].id === localPlaylist[0].items[0].id) {
                     break_check = true
                     break
@@ -268,9 +251,47 @@ const App = () => {
             }
             if (break_check) break
         }
-        console.log("New Elements: ", newElement_count)
+        
+        //RETRIEVE EXTRA PAGES AS NECESSARY
+       
+        //to calculate scroll distance and page count compensation, we: 
+        //1. take the videocard closest to the center of the screen
+        //2. figure out how many videos are BELOW that center video
+        //3. then calc the extra pages needed
+        //3.1 this is affected by A. How many new videos were loaded vs how much space the 
+        //center video can be moved down the list, and B. if more than 50 new videos were loaded
+        //since we can fetch a max of 50 videos per request.
+        
+        
+        //find videocard currently at center off screen
+        let centerElements = document.elementsFromPoint(screen.width/2, screen.height/2)
+        let centerVideocard = centerElements.filter(element => {
+            if (element.classList.contains("videocard")) return element
+        })[0]
 
-        //calc height of video card
+        //find how many elements there are after current middle videocard
+        let videocardsParent = centerVideocard.parentElement
+        let videocardsAfterCenter_count = 0
+        for (let i = videocardsParent.children.length; i > 0; i--) {
+            videocardsAfterCenter_count++
+        }
+
+        //calc number of extra pages necessary to keep current position in page
+        let extraPage_count = (videocardsAfterCenter_count - newElement_count < 0 ? 1 : 0) + Math.floor( newElement_count / 50 )
+        
+        //fetch and add extra pages
+        while (extraPage_count > 0) {
+            let nextPlaylist = await getChannelPlaylist(
+                channelId, 
+                FormData.api_key, 
+                newPlaylistData[newPlaylistData.length - 1].nextPageToken
+            )
+
+            newPlaylistData.push(nextPlaylist)
+            extraPage_count--
+        }
+
+        //CALC HEIGHT OF VIDEO CARD
         let videocard = document.getElementsByClassName("videocard")[0]
         let videocard_height = videocard.clientHeight + parseFloat(window.getComputedStyle(videocard).getPropertyValue('margin-top'))
         
@@ -279,25 +300,25 @@ const App = () => {
 
 
         //update cache if reloaded channel is cached
-        let channelList = Object.keys(channelData)
+        // let channelList = Object.keys(channelData)
 
-        if ( channelList.includes(channelId) ) {
+        // if ( channelList.includes(channelId) ) {
             
-            setChannelData(
-                createChannelData({[channelId]: channelName}, channelData)
-            )
-            setPlaylistData(
-               createPlaylistData({[channelId]: newPlaylistData}, playlistData)
-            )
-            setScrollData(
-                createScrollData(
-                    {[channelId]: scrollData[channelId] + scrollDistance_additional}, 
-                    scrollData
-                )
-            )
-        }
+        //     setChannelData(
+        //         createChannelData({[channelId]: channelName}, channelData)
+        //     )
+        //     setPlaylistData(
+        //        createPlaylistData({[channelId]: newPlaylistData}, playlistData)
+        //     )
+        //     setScrollData(
+        //         createScrollData(
+        //             {[channelId]: scrollData[channelId] + scrollDistance_additional}, 
+        //             scrollData
+        //         )
+        //     )
+        // }
 
-        setLocalPlaylist(newPlaylistData)
+        // setLocalPlaylist(newPlaylistData)
     }
 
     const handleChannelListItemClick = (channelId) => {
