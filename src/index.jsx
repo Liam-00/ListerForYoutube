@@ -216,12 +216,34 @@ const App = () => {
         let newPlaylist_count = 0
         let newPlaylists = []
 
-        let localPlaylist_mostRecentFound = false
+        
 
-        //fetch new playlists until we reach the most recent video currently loaded - 
+        //find last visible videocard on screen
+        let videocards = Array.from(document.getElementsByClassName("videocard"))
+        let videocard_lowestVisible
+        let videocard_lowestVisible_index
+        for (let i_video = videocards.length - 1; i_video >= 0; i_video-- ) {
+            let videocard_coordinates = videocards[i_video].getBoundingClientRect()  
+            videocard_lowestVisible_index = i_video
+            if( videocard_coordinates.bottom <= visualViewport.height) {
+                videocard_lowestVisible = videocards[i_video]
+                break
+            }
+        }        
+
+        //find last videocard^ in localplaylist
+        let localPlaylist_lowestVisible_entry = localPlaylist[Math.floor(videocard_lowestVisible_index / 50)].items[videocard_lowestVisible_index % 50]
+        let localPlaylist_lowestVisible_entry_id = localPlaylist_lowestVisible_entry.id
+        console.log(localPlaylist_lowestVisible_entry.id, localPlaylist_lowestVisible_entry.snippet.title)
+        
+
+        
+        //fetch new playlists until we reach the last video currently visible - 
         //while fetching AT LEAST the number of currently loaded playlists
-        for (let i_playlist = 0; !localPlaylist_mostRecentFound || newPlaylists.length < localPlaylist.length; i_playlist++) {
-            console.log("fetching playlist", (!localPlaylist_mostRecentFound),( newPlaylists.length < localPlaylist.length))
+        let localPlaylist_mostRecentFound = false
+        let newPlaylist_lowestVisibleFound = false
+        for (let i_playlist = 0; !newPlaylist_lowestVisibleFound || newPlaylists.length < localPlaylist.length; i_playlist++) {
+            
             //fetch playlist
             //if first playlist already fetched, get next one with nextPageToken
             let newPlaylist = newPlaylists.length === 0 ? 
@@ -235,14 +257,16 @@ const App = () => {
             //loop through each playlist to check if current video is found and increment for each video
             for (let i_video = 0; i_video < newPlaylist.items.length; i_video++) {
                 
-                
                 if (newPlaylist.items[i_video].id === localPlaylist[0].items[0].id) {
-                    console.log(newPlaylist.items[i_video].id, localPlaylist[0].items[0].id)
                     localPlaylist_mostRecentFound = true
                 }
                 
                 if (!localPlaylist_mostRecentFound){
                     newVideos_count++
+                }
+
+                if (newPlaylist.items[i_video].id === localPlaylist_lowestVisible_entry_id) {
+                    newPlaylist_lowestVisibleFound = true
                 }
                 
             }
@@ -252,43 +276,18 @@ const App = () => {
             newPlaylists.push(newPlaylist)
         }
 
-
-       
-        //find videocard currently at center off screenw
-        let centerElements = document.elementsFromPoint(screen.width/2, screen.height/2)
-        let centerVideocard = centerElements.filter(element => {
-            if (element.classList.contains("videocard")) return element
-        })[0]
-
-        //find how many elements there are after current middle videocard
-        let newPlaylist_videos_count = 50 * newPlaylist_count
-        let videosAfterCenter_count = newPlaylist_videos_count - newVideos_count
-            // let videocardsParent = centerVideocard.parentElement
-            // let videocardsAfterCenter_count = 0
-            // for (let i = videocardsParent.children.length; i > 0; i--) {
-            //     videocardsAfterCenter_count++
-            // }
-
         //CALC HEIGHT OF VIDEO CARD
         let videocard = document.getElementsByClassName("videocard")[0]
         let videocard_height = videocard.clientHeight + parseFloat(window.getComputedStyle(videocard).getPropertyValue('margin-top'))
         
         let scrollDistance_additional = videocard_height * newVideos_count
-
-        //debug
-        console.table({
-            newVideos_count: newVideos_count,
-            newPlaylist_count: newPlaylist_count,
-            newPlaylist_count_videos_count: newPlaylist_videos_count,
-            scrollDistance_additional: scrollDistance_additional,
-        })
-        console.table(localPlaylist)
-        console.table(newPlaylists)
-//########################################################################################
+        console.table({"scroll distance": scrollDistance_additional})
 
 
         //update cache if reloaded channel is cached
         let channelList = Object.keys(channelData)
+
+        setLocalPlaylist(newPlaylists)
 
         if ( channelList.includes(channel_id) ) {
             
@@ -306,7 +305,6 @@ const App = () => {
             )
         }
 
-        setLocalPlaylist(newPlaylists)
     }
 
     const handleChannelListItemClick = (channelId) => {
@@ -339,10 +337,9 @@ const App = () => {
     }
 
     //SCROLL POSITION HANDLING
+   
+    //listener to track scroll potisition
     React.useEffect (() => {
-        
-        //RESTORE STORED SCROLL POSITION
-        
         if (currentChannel) {
             window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
         } else {
@@ -357,7 +354,8 @@ const App = () => {
         if (currentChannel) window.addEventListener("scrollend", handlescroll )
 
         return () => window.removeEventListener("scrollend", handlescroll)
-    }, [currentChannel])
+
+    }, [currentChannel, scrollData])
 
 
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
