@@ -104,6 +104,8 @@ const App = () => {
         return Data
     })
 
+    const [didScroll, setDidScroll] = React.useState(false)
+
     const [currentChannel, setCurrentChannel] = React.useState(() => {
         let channel = readCurrentChannel()
 
@@ -303,6 +305,7 @@ const App = () => {
                     scrollData
                 )
             )
+            // window.scrollTo({top: scrollData[channel_id] + scrollDistance_additional, left: 0, behavior: 'instant'})
         }
 
     }
@@ -335,10 +338,10 @@ const App = () => {
             createScrollData(undefined, newScrollData)
         )
     }
+    
 
     //SCROLL POSITION HANDLING
-   
-    //listener to track scroll potisition
+    //listener to restore scroll position and scroll position restoration 
     React.useEffect (() => {
         if (currentChannel) {
             window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
@@ -346,16 +349,30 @@ const App = () => {
             window.scrollTo( {top: 0, left: 0, behavior: "instant"})
         }
 
-        //LISTENER THAT STORES SCROLL POSITION
         const handlescroll = (e) => {
-            setScrollData(createScrollData({[currentChannel]: window.scrollY}, scrollData))
+            if (currentChannel) {
+                setScrollData(createScrollData({[currentChannel]: window.scrollY}, scrollData))
+                setDidScroll(true)
+            }
         }
         
-        if (currentChannel) window.addEventListener("scrollend", handlescroll )
+        window.addEventListener("scrollend", handlescroll )
 
         return () => window.removeEventListener("scrollend", handlescroll)
 
-    }, [currentChannel, scrollData])
+    }, [currentChannel])
+
+    React.useEffect(() => {
+        if (!didScroll) {
+            if (currentChannel) {
+                window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
+            } else {
+                window.scrollTo( {top: 0, left: 0, behavior: "instant"})
+            }
+        }
+        console.log("setting did scroll false")
+        setDidScroll(false)
+    }, [scrollData])
 
 
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
