@@ -9,7 +9,7 @@
 
 :root {
     --text_color: rgb(95, 95, 95);
-    --ui_background: rgb(222, 222, 222);
+    --ui_background: rgb(217, 217, 217);
     --ui_main:  hsl(0, 78%, 59%);
     --ui_body_background: hsl(0, 0%, 10%);
 }
@@ -116,7 +116,7 @@ section {
     }
 
     & svg {
-        height: 1.rem;
+        height: 1.3rem;
         width: 1.3rem;
         stroke: var(--text_color);
         fill:none;
