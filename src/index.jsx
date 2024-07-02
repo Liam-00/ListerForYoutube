@@ -104,6 +104,8 @@ const App = () => {
         return Data
     })
 
+    const [didScroll, setDidScroll] = React.useState(false)
+
     const [currentChannel, setCurrentChannel] = React.useState(() => {
         let channel = readCurrentChannel()
 
@@ -205,40 +207,106 @@ const App = () => {
     }
 
     const handleReloadChannelPlaylist = async () => {
-        let channelId = localPlaylist[0].items[0].snippet.channelId
-        let channelName = localPlaylist[0].items[0].snippet.channelTitle
+        console.log("Reloading")
+        //get channel name and id from the current local playlist
+        let channel_id = localPlaylist[0].items[0].snippet.channelId
+        let channel_name = localPlaylist[0].items[0].snippet.channelTitle
 
-        //construct new playlistdata
-        let playlistCount = localPlaylist.length
-        let newBasePlaylist = await getChannelPlaylist(channelId, FormData.api_key)
+        let localPlaylist_mostRecentId = localPlaylist[0].items[0].id
+
+        let newVideos_count = 0
+        let newPlaylist_count = 0
+        let newPlaylists = []
+
         
-        let newPlaylistData = [newBasePlaylist]
-    
-        playlistCount--
 
-        while (playlistCount > 0) {
-            let nextPlaylist = await getChannelPlaylist(
-                channelId, 
-                FormData.api_key, 
-                newPlaylistData[newPlaylistData.length - 1].nextPageToken
-            )
+        //find last visible videocard on screen
+        let videocards = Array.from(document.getElementsByClassName("videocard"))
+        let videocard_lowestVisible
+        let videocard_lowestVisible_index
+        for (let i_video = videocards.length - 1; i_video >= 0; i_video-- ) {
+            let videocard_coordinates = videocards[i_video].getBoundingClientRect()  
+            videocard_lowestVisible_index = i_video
+            if( videocard_coordinates.bottom <= visualViewport.height) {
+                videocard_lowestVisible = videocards[i_video]
+                break
+            }
+        }        
 
-            newPlaylistData.push(nextPlaylist)
+        //find last videocard^ in localplaylist
+        let localPlaylist_lowestVisible_entry = localPlaylist[Math.floor(videocard_lowestVisible_index / 50)].items[videocard_lowestVisible_index % 50]
+        let localPlaylist_lowestVisible_entry_id = localPlaylist_lowestVisible_entry.id
+        console.log(localPlaylist_lowestVisible_entry.id, localPlaylist_lowestVisible_entry.snippet.title)
+        
+
+        
+        //fetch new playlists until we reach the last video currently visible - 
+        //while fetching AT LEAST the number of currently loaded playlists
+        let localPlaylist_mostRecentFound = false
+        let newPlaylist_lowestVisibleFound = false
+        for (let i_playlist = 0; !newPlaylist_lowestVisibleFound || newPlaylists.length < localPlaylist.length; i_playlist++) {
+            
+            //fetch playlist
+            //if first playlist already fetched, get next one with nextPageToken
+            let newPlaylist = newPlaylists.length === 0 ? 
+                await getChannelPlaylist(channel_id, FormData.api_key)
+                :
+                await getChannelPlaylist(channel_id, FormData.api_key, newPlaylists[newPlaylists.length - 1].nextPageToken)
+
+            //if a fetch ever returns nothing, stop entire operation
+            if (!newPlaylist) return null
+
+            //loop through each playlist to check if current video is found and increment for each video
+            for (let i_video = 0; i_video < newPlaylist.items.length; i_video++) {
+                
+                if (newPlaylist.items[i_video].id === localPlaylist[0].items[0].id) {
+                    localPlaylist_mostRecentFound = true
+                }
+                
+                if (!localPlaylist_mostRecentFound){
+                    newVideos_count++
+                }
+
+                if (newPlaylist.items[i_video].id === localPlaylist_lowestVisible_entry_id) {
+                    newPlaylist_lowestVisibleFound = true
+                }
+                
+            }
+
+            //increment newPlaylists count and push playlist  
+            newPlaylist_count++
+            newPlaylists.push(newPlaylist)
         }
 
+        //CALC HEIGHT OF VIDEO CARD
+        let videocard = document.getElementsByClassName("videocard")[0]
+        let videocard_height = videocard.clientHeight + parseFloat(window.getComputedStyle(videocard).getPropertyValue('margin-top'))
+        
+        let scrollDistance_additional = videocard_height * newVideos_count
+        console.table({"scroll distance": scrollDistance_additional})
+
+
+        //update cache if reloaded channel is cached
         let channelList = Object.keys(channelData)
 
-        if ( channelList.includes(channelId) ) {
+        setLocalPlaylist(newPlaylists)
+
+        if ( channelList.includes(channel_id) ) {
             
             setChannelData(
-                createChannelData({[channelId]: channelName}, channelData)
+                createChannelData({[channel_id]: channel_name}, channelData)
             )
             setPlaylistData(
-               createPlaylistData({[channelId]: newPlaylistData}, playlistData)
+               createPlaylistData({[channel_id]: newPlaylists}, playlistData)
+            )
+            setScrollData(
+                createScrollData(
+                    {[channel_id]: scrollData[channel_id] + scrollDistance_additional}, 
+                    scrollData
+                )
             )
         }
 
-        setLocalPlaylist(newPlaylistData)
     }
 
     const handleChannelListItemClick = (channelId) => {
@@ -269,27 +337,46 @@ const App = () => {
             createScrollData(undefined, newScrollData)
         )
     }
+    
 
     //SCROLL POSITION HANDLING
+    //listener to write new scrolldata on scroll end and set scroll position when changing
+    //channels
     React.useEffect (() => {
-        
-        //RESTORE STORED SCROLL POSITION
-        
         if (currentChannel) {
             window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
         } else {
             window.scrollTo( {top: 0, left: 0, behavior: "instant"})
         }
 
-        //LISTENER THAT STORES SCROLL POSITION
         const handlescroll = (e) => {
-            setScrollData(createScrollData({[currentChannel]: window.scrollY}, scrollData))
+            if (currentChannel) {
+                setScrollData(createScrollData({[currentChannel]: window.scrollY}, scrollData))
+                setDidScroll(true)
+            }
         }
         
-        if (currentChannel) window.addEventListener("scrollend", handlescroll )
+        window.addEventListener("scrollend", handlescroll )
 
         return () => window.removeEventListener("scrollend", handlescroll)
+
     }, [currentChannel])
+
+    //scrollData effect
+    //if change did not result from a scrollend event generated by eventlistener, then 
+    //reset didScroll and do nothing.
+    //if change resulted from a reload, then scroll required distance to maintain position
+    React.useEffect(() => {
+        if (!didScroll) {
+            if (currentChannel) {
+                window.scrollTo( {top: scrollData[currentChannel], left: 0, behavior: "instant"} )
+            } else {
+                window.scrollTo( {top: 0, left: 0, behavior: "instant"})
+            }
+        }
+        console.log("setting did scroll false")
+        setDidScroll(false)
+    }, [scrollData])
 
 
     //SYNC CACHE TO PLAYLISTDATA AND CHANNELDATA
