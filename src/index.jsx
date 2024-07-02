@@ -207,7 +207,6 @@ const App = () => {
     }
 
     const handleReloadChannelPlaylist = async () => {
-        console.log("Reloading")
         //get channel name and id from the current local playlist
         let channel_id = localPlaylist[0].items[0].snippet.channelId
         let channel_name = localPlaylist[0].items[0].snippet.channelTitle
@@ -236,7 +235,6 @@ const App = () => {
         //find last videocard^ in localplaylist
         let localPlaylist_lowestVisible_entry = localPlaylist[Math.floor(videocard_lowestVisible_index / 50)].items[videocard_lowestVisible_index % 50]
         let localPlaylist_lowestVisible_entry_id = localPlaylist_lowestVisible_entry.id
-        console.log(localPlaylist_lowestVisible_entry.id, localPlaylist_lowestVisible_entry.snippet.title)
         
 
         
@@ -374,7 +372,6 @@ const App = () => {
                 window.scrollTo( {top: 0, left: 0, behavior: "instant"})
             }
         }
-        console.log("setting did scroll false")
         setDidScroll(false)
     }, [scrollData])
 
