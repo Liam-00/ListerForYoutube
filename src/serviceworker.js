@@ -1,17 +1,17 @@
-
+const ROOT_PATH = "/ListerForYoutube/"
 const CACHE_STATIC = "CACHE_STATIC"
 const CACHE_IMAGES = "CACHE_IMAGES"
 const CACHE_IMAGES_MAX = 200
 
 const static_paths = [
-    '/',
-    '/index.html',
-    '/main.css',
-    '/main.js',
-    '/manifest.json',
-    '/icons/icon.svg',
-    '/icons/app_icons_map.svg',
-    '/fonts/VarelaRound-Regular.ttf'
+    `./`,
+    `./index.html`,
+    `./main.css`,
+    `./main.js`,
+    `./manifest.json`,
+    `./icons/icon.svg`,
+    `./icons/app_icons_map.svg`,
+    `./fonts/VarelaRound-Regular.ttf`
 ]
 
 
