@@ -8,16 +8,17 @@
 }
 
 :root {
-    --text_color: rgb(95, 95, 95);
+    --text_color: rgb(50, 50, 50);
     --ui_background: rgb(217, 217, 217);
     --ui_main:  hsl(0, 78%, 59%);
     --ui_body_background: hsl(0, 0%, 10%);
+    --text_link_color: rgb(32, 32, 32);
 }
 
 body {
     background-color: var(--ui_body_background);
     font-family: 'Varela Round','Trebuchet MS';
-    color: hsla(0, 0%, 10%, 100%);
+    color: var(--text_color);
     margin: 0px;
     font-size: 16px;
 }
@@ -31,6 +32,7 @@ textarea, input {
 
 h1,h2,h3,h4,h5,h6 {
     margin: 0px;
+    color: var(--text_color);
 }
 
 
@@ -166,7 +168,7 @@ section {
 .videoinfoblock {
     padding-left: 0.5rem;
     padding-top: 0.5rem;
-    background: linear-gradient(to right, hsla(0, 0%, 100%, 15%), hsla(0, 0%, 0%, 0%));
+    background: linear-gradient(to right, hsla(0, 0%, 100%, 10%), hsla(0, 0%, 0%, 0%) 75%);
     align-self: stretch;
     
     width: calc(100%);
@@ -183,7 +185,7 @@ section {
 
         & > a {
             font-size: 1.1rem;
-            color:black;
+            color: var(--text_link_color);
             text-decoration: underline;
         }
     }
