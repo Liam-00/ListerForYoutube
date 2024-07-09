@@ -10,7 +10,7 @@
 :root {
     --text_color: hsl(0, 0%, 10%);
     --ui_background: rgb(217, 217, 217);
-    --ui_main:  hsl(0, 54%, 50%);
+    --ui_main:  hsl(0, 54%, 53%);
     --ui_body_background: hsl(0, 0%, 10%);
     --text_link_color: hsl(0, 0%, 10%);
 }
