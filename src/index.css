@@ -8,11 +8,11 @@
 }
 
 :root {
-    --text_color: rgb(50, 50, 50);
+    --text_color: hsl(0, 0%, 10%);
     --ui_background: rgb(217, 217, 217);
-    --ui_main:  hsl(0, 78%, 59%);
+    --ui_main:  hsl(0, 54%, 50%);
     --ui_body_background: hsl(0, 0%, 10%);
-    --text_link_color: rgb(32, 32, 32);
+    --text_link_color: hsl(0, 0%, 10%);
 }
 
 body {
@@ -193,6 +193,7 @@ section {
     & p {
         font-weight: bold;        
         margin-top: 0.5rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -290,7 +291,7 @@ section {
         align-items: center;
         gap: 0.5rem;
 
-        border: 1px solid var(--text_color);
+        border: 2px solid var(--text_color);
         color: var(--text_color);
         font-weight: bold;
         font-size: 1rem;
