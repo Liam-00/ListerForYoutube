@@ -10,11 +10,7 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-
-
 jobs:
-  
-      
     build:
         environment:
           name: github-pages
@@ -24,14 +20,17 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4.1.7
             
+            - name: PNPM setup
+              uses: pnpm/action-setup@v2
+
             - name: Node
               uses: actions/setup-node@v4.0.2
             
             - name: Dependencies
-              run: npm ci
+              run: pnpm install
             
             - name: Run Build
-              run: npm run build
+              run: pnpm build
 
             - name: Configure Pages
               uses: actions/configure-pages@v5
