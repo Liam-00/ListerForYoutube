@@ -125,6 +125,8 @@ const App = () => {
         return []
     })
  
+    const [canLoadMore, setCanLoadMore] = React.useState(true)
+
     const refChannelList = React.useRef(null)
 
 
@@ -179,11 +181,21 @@ const App = () => {
 
     const handleLoadMore = async () => {
         //uses nextpage token and id from currently loaded playlist
-        let pageToken = localPlaylist[localPlaylist.length - 1].nextPageToken
-        let channelId = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelId
-        let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelTitle
+        
+        let pageToken = localPlaylist[localPlaylist.length - 1].nextPageToken ?? null
+        let channelId = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelId ?? null
+        let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelTitle ?? null
+    
 
+        if (!channelId || !channelName) return null
+
+        
         let nextPlaylistSet = await getChannelPlaylist(channelId, FormData.api_key, pageToken)
+
+        
+        if (nextPlaylistSet.nextPageToken === undefined) {
+            setCanLoadMore(false)
+        }
         
         let newCompletePlaylistArray = [...localPlaylist, nextPlaylistSet]
         
@@ -468,7 +480,7 @@ const App = () => {
                         :
                             null
                     }                
-                    {localPlaylist.length > 0 ?  <button onClick={handleLoadMore} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
+                    {localPlaylist.length > 0 ?  <button onClick={handleLoadMore} disabled={canLoadMore ? false : true} className="button videolist_button marginTop" content="Load More">Load More</button> : null}
                 </div>            
             </section>
             <button className="button button_floating" onClick={handleScrollToTop}>Scroll to Top</button>
