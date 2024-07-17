@@ -13,6 +13,7 @@
     --ui_main:  hsl(0, 54%, 53%);
     --ui_body_background: hsl(0, 0%, 10%);
     --text_link_color: hsl(0, 0%, 10%);
+    --ui_shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
 }
 
 body {
@@ -55,7 +56,7 @@ main {
 }
 
 section {
-    box-shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
+    box-shadow: var(--ui_shadow);
     background-color: var(--ui_main);
     padding: 0.5rem;
     
@@ -332,7 +333,49 @@ section {
     rotate: 180deg;
 }
 
+.toast_body {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3rem;
+    
+    border-radius: 1.5rem;
+    
+    background-color: var(--ui_background);
+    
+    display:flex;
+    align-items: center;
+    padding: 0 1rem;
 
+    box-shadow: var(--ui_shadow);
+    
+    visibility: hidden;
+    transition: visibility 5s;
+
+    cursor: crosshair;
+
+}
+
+.toast_success {
+    background-color: hsl(128, 41%, 62%)
+
+}
+
+.toast_error {
+    background-color: hsl(0, 73%, 54%)
+
+}
+
+.toast_fade {
+    visibility: visible;
+    animation: toast_animation_fade 3s linear forwards;
+}
+
+@keyframes toast_animation_fade {
+    0%, 50% {opacity: 1;}
+    100% {opacity: 0;}
+}
 
 @media (aspect-ratio <= 1/1) {
     main {
