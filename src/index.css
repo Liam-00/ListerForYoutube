@@ -338,6 +338,7 @@ section {
     bottom: 50%;
     left: 50%;
     transform: translateX(-50%);
+    
     height: 3rem;
     
     border-radius: 1.5rem;
@@ -355,25 +356,26 @@ section {
 
     cursor: crosshair;
 
+    font-weight: bold;
+
 }
 
 .toast_success {
-    background-color: hsl(128, 41%, 62%)
+    color: hsl(134, 54%, 20%)
 
 }
 
 .toast_error {
-    background-color: hsl(0, 73%, 54%)
-
+    color: hsl(0, 51%, 43%)
 }
 
 .toast_fade {
     visibility: visible;
-    animation: toast_animation_fade 3s linear forwards;
+    animation: toast_animation_fade 2.5s linear forwards;
 }
 
 @keyframes toast_animation_fade {
-    0%, 50% {opacity: 1;}
+    0%, 90% {opacity: 1;}
     100% {opacity: 0;}
 }
 
