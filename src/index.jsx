@@ -15,6 +15,7 @@ import { createChannelData, createPlaylistData, createScrollData } from './utils
 import "./index.css"
 
 import icon_map from './icons/app_icons_map.svg'
+import { Toast } from './components/Toast.jsx';
 
 //API UTILS
 
@@ -127,6 +128,8 @@ const App = () => {
  
     const [canLoadMore, setCanLoadMore] = React.useState(true)
 
+    const [toast, setToast] = React.useState(null)
+
     const refChannelList = React.useRef(null)
 
 
@@ -158,12 +161,16 @@ const App = () => {
         
         //TODO: spawn toast to inform error
         if (!id) {
+            setToast({message: "Error: Could not find channel.", type:false })
             return null
         }
 
         let playlist = await getChannelPlaylist(id, FormData.api_key)
 
-        if (!playlist) return null
+        if (!playlist) {
+            setToast({message: "Error: Could not retrieve videos from channel.", type:false }) 
+            return null
+        }
         
         //check if channel is cached and update
         let channelId = `${playlist.items[0].snippet.channelId}`
@@ -187,12 +194,18 @@ const App = () => {
         let channelName = localPlaylist[localPlaylist.length - 1].items[0].snippet.channelTitle ?? null
     
 
-        if (!channelId || !channelName) return null
-
+        if (!channelId || !channelName) {
+            setToast({message: "Error: Internal data error.", type:false })
+            return null
+        }
         
         let nextPlaylistSet = await getChannelPlaylist(channelId, FormData.api_key, pageToken)
+        if (!nextPlaylistSet) {
+            setToast({message: "Error: Network or API unavailable.", type:false })
+            return null
+        }
 
-        
+        //if no more videos exist, update state to disable loadmore button
         if (nextPlaylistSet.nextPageToken === undefined) {
             setCanLoadMore(false)
         }
@@ -264,7 +277,10 @@ const App = () => {
                 await getChannelPlaylist(channel_id, FormData.api_key, newPlaylists[newPlaylists.length - 1].nextPageToken)
 
             //if a fetch ever returns nothing, stop entire operation
-            if (!newPlaylist) return null
+            if (!newPlaylist) {
+                setToast({message: "Error: Network or API unavailable", type:false })
+                return null
+            }
 
             //loop through each playlist to check if current video is found and increment for each video
             for (let i_video = 0; i_video < newPlaylist.items.length; i_video++) {
@@ -484,6 +500,7 @@ const App = () => {
                 </div>            
             </section>
             <button className="button button_floating" onClick={handleScrollToTop}>Scroll to Top</button>
+            {toast !== null ? <Toast message={toast.message} type={toast.type} closerCallback={setToast}/> : null}
         </>
     )
 }
