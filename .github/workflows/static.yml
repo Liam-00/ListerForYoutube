@@ -1,7 +1,7 @@
 on:
-    workflow_dispatch:
-    push: 
-        branches: ["main"]
+  workflow_dispatch:
+  push:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -13,37 +13,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-    build:
-        environment:
-          name: github-pages
-          
-        runs-on: ubuntu-latest
-        steps: 
-            - name: Checkout
-              uses: actions/checkout@v4.1.7
-    
-            - name: PNPM setup
-              uses: pnpm/action-setup@v4
-              with:
-                  version: 8
+  build:
+    environment:
+      name: github-pages
 
-            - name: Node
-              uses: actions/setup-node@v4.0.2
-            
-            - name: Dependencies
-              run: pnpm install
-            
-            - name: Run Build
-              run: pnpm build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
 
-            - name: Configure Pages
-              uses: actions/configure-pages@v5
-            
-            - name: Upload Pages Artifact
-              uses: actions/upload-pages-artifact@v3
-              with:
-                # Upload entire repository
-                path: './dist'
-            
-            - name: Deploy Pages
-              uses: actions/deploy-pages@v4
+      - name: PNPM setup
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Node
+        uses: actions/setup-node@v4.0.2
+
+      - name: Dependencies
+        run: pnpm install
+
+      - name: Run Build
+        run: pnpm build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: "./dist"
+
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4

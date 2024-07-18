@@ -1,395 +1,395 @@
 @font-face {
-    font-family: 'Varela Round';
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url("./fonts/varela_round/VarelaRound-Regular.ttf");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-family: "Varela Round";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./fonts/varela_round/VarelaRound-Regular.ttf");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 :root {
-    --text_color: hsl(0, 0%, 10%);
-    --ui_background: rgb(217, 217, 217);
-    --ui_main:  hsl(0, 54%, 53%);
-    --ui_body_background: hsl(0, 0%, 10%);
-    --text_link_color: hsl(0, 0%, 10%);
-    --ui_shadow: 0px 5px 5px  rgba(0, 0, 0, 0.698);
+  --text_color: hsl(0, 0%, 10%);
+  --ui_background: rgb(217, 217, 217);
+  --ui_main: hsl(0, 54%, 53%);
+  --ui_body_background: hsl(0, 0%, 10%);
+  --text_link_color: hsl(0, 0%, 10%);
+  --ui_shadow: 0px 5px 5px rgba(0, 0, 0, 0.698);
 }
 
 body {
-    background-color: var(--ui_body_background);
-    font-family: 'Varela Round','Trebuchet MS';
-    color: var(--text_color);
-    margin: 0px;
-    font-size: 16px;
+  background-color: var(--ui_body_background);
+  font-family: "Varela Round", "Trebuchet MS";
+  color: var(--text_color);
+  margin: 0px;
+  font-size: 16px;
 }
 
-textarea, input {
-    font: inherit;
-    letter-spacing: inherit;
-    word-spacing: inherit;
+textarea,
+input {
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
 }
 
-
-h1,h2,h3,h4,h5,h6 {
-    margin: 0px;
-    color: var(--text_color);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
+  color: var(--text_color);
 }
-
 
 p {
-    font-size: 1rem;
-    margin: 0px;
+  font-size: 1rem;
+  margin: 0px;
 }
 
 main {
-    align-items: center;
+  align-items: center;
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-    
-    margin: 0 auto;
-    max-width: 50rem;
-    overflow-anchor: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+
+  margin: 0 auto;
+  max-width: 50rem;
+  overflow-anchor: none;
 }
 
 section {
-    box-shadow: var(--ui_shadow);
-    background-color: var(--ui_main);
-    padding: 0.5rem;
-    
-    & h1 {
-        color: hsla(0, 0%, 0%, 40%);
-        font-size: 2rem;
-        text-transform: uppercase;
-        font-style: italic;
-    }
+  box-shadow: var(--ui_shadow);
+  background-color: var(--ui_main);
+  padding: 0.5rem;
 
+  & h1 {
+    color: hsla(0, 0%, 0%, 40%);
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-style: italic;
+  }
 }
 
 .controls_section {
-    position: sticky;
-    min-height: 5rem;
+  position: sticky;
+  min-height: 5rem;
 
-    top: 0px;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap:1rem;
-    view-transition-name: controls;
-    z-index: 100;
+  top: 0px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  view-transition-name: controls;
+  z-index: 100;
 }
 
 .button {
-    
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 0.5rem;
 
-    background-color: var(--ui_background);
-    padding: 5px 1rem 6px 1rem;
-    user-select: none;
-    border:none;
-    border-top: 3px solid white;
-    border-left: 3px solid white;
-    border-bottom: 1px solid black;
+  background-color: var(--ui_background);
+  padding: 5px 1rem 6px 1rem;
+  user-select: none;
+  border: none;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  border-bottom: 1px solid black;
 
-    font-family: 'Varela Round'; 
-    font-size: 1rem;
-    font-weight: bold;
-    letter-spacing: 0.1rem;
-    color: var(--text_color);
+  font-family: "Varela Round";
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  color: var(--text_color);
 
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 
-    &:active {
-        transform: translateX(-3px);
-    }
+  &:active {
+    transform: translateX(-3px);
+  }
 
-    &:disabled {
-        border-color: grey;
-        background-color: grey;
-        cursor: default;
-    }
+  &:disabled {
+    border-color: grey;
+    background-color: grey;
+    cursor: default;
+  }
 
-    & svg {
-        height: 1.3rem;
-        width: 1.3rem;
-        stroke: var(--text_color);
-        fill:none;
-    }
+  & svg {
+    height: 1.3rem;
+    width: 1.3rem;
+    stroke: var(--text_color);
+    fill: none;
+  }
 }
 
 .button_floating {
-    position: fixed;
-    bottom: 30%;
-    right: 10%;
-    height: 3rem;
+  position: fixed;
+  bottom: 30%;
+  right: 10%;
+  height: 3rem;
 }
 
 .button_row {
-    display:inline-flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    align-self: flex-end;
-    width: 100%;
+  display: inline-flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-self: flex-end;
+  width: 100%;
 
-    & > .button {
-        flex-grow: 1;
-
-    }
+  & > .button {
+    flex-grow: 1;
+  }
 }
-
 
 .videocard {
-    display: flex;
-    align-items: start;
-    height: 6rem;
-    margin-top: 0.8rem;
-    opacity: 0;
-    & > a {
-        text-decoration: none;
-        height: 100%;
-        & img {
-            height: 100%;
-        }
+  display: flex;
+  align-items: start;
+  height: 6rem;
+  margin-top: 0.8rem;
+  opacity: 0;
+  & > a {
+    text-decoration: none;
+    height: 100%;
+    & img {
+      height: 100%;
     }
+  }
 }
 
-.videocard_visible{
-    opacity: 1;
+.videocard_visible {
+  opacity: 1;
 }
 
 .videoinfoblock {
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
-    background: linear-gradient(to right, hsla(0, 0%, 100%, 10%), hsla(0, 0%, 0%, 0%) 75%);
-    align-self: stretch;
-    
-    width: calc(100%);
-    
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  background: linear-gradient(
+    to right,
+    hsla(0, 0%, 100%, 10%),
+    hsla(0, 0%, 0%, 0%) 75%
+  );
+  align-self: stretch;
 
-    & h2 {
-        font-size: 1.1rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        
+  width: calc(100%);
 
-        & > a {
-            font-size: 1.1rem;
-            color: var(--text_link_color);
-            text-decoration: underline;
-        }
+  & h2 {
+    font-size: 1.1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    & > a {
+      font-size: 1.1rem;
+      color: var(--text_link_color);
+      text-decoration: underline;
     }
+  }
 
-    & p {
-        font-weight: bold;        
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-    }
+  & p {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
 }
 
 .videolist_button {
-    width: 100%;
-    height: 3rem;
-    margin-top:1rem;
+  width: 100%;
+  height: 3rem;
+  margin-top: 1rem;
 }
 
 .inputform input[type="text"] {
-    padding-left: 1rem;
-    min-height: 2rem;
-    border:1px solid transparent;
-    outline:none;
-    background-color: var(--ui_background);
-    &:active {
-        border: 1px solid black;
-    }
-    &:focus {
-        border: 1px solid black;
-    }
+  padding-left: 1rem;
+  min-height: 2rem;
+  border: 1px solid transparent;
+  outline: none;
+  background-color: var(--ui_background);
+  &:active {
+    border: 1px solid black;
+  }
+  &:focus {
+    border: 1px solid black;
+  }
 }
 
 .inputform input[type="checkbox"] {
-    margin: 0px;
-    width: 1rem;
-    height: 1rem;
-    accent-color: rgb(16, 16, 16);
-    
+  margin: 0px;
+  width: 1rem;
+  height: 1rem;
+  accent-color: rgb(16, 16, 16);
 }
 
 .checkbox_row {
-    margin-top: 0.5rem;
-    display: flex;
-    gap: 1rem;
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .inputform label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .inputform_col {
-    display:flex;
-    flex-direction: column;
-    
-    &:not(:first-child) {
-        margin-top: 1rem;
-    }
+  display: flex;
+  flex-direction: column;
+
+  &:not(:first-child) {
+    margin-top: 1rem;
+  }
 }
 
 .inputform_row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap:1rem;
-    justify-items: stretch;
-    & > * {
-        flex-grow: 1;
-    }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-items: stretch;
+  & > * {
+    flex-grow: 1;
+  }
 }
 
 .flex_row {
-    display: flex;
+  display: flex;
 }
 
 .flex_col {
-    display:flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .section_header {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .button_set {
-    display:flex;
-    gap: 0.5rem;
-    height: 3rem;
+  display: flex;
+  gap: 0.5rem;
+  height: 3rem;
 }
 
-
-
 .channel_list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0rem;
+
+  & .channel_item {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
-    flex-wrap: wrap;
-    padding: 0rem;
 
-    & .channel_item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    border: 2px solid var(--text_color);
+    color: var(--text_color);
+    font-weight: bold;
+    font-size: 1rem;
 
-        border: 2px solid var(--text_color);
-        color: var(--text_color);
-        font-weight: bold;
-        font-size: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    background: var(--ui_background);
 
-        padding: 0.4rem 1rem;
-        border-radius: 100px;
-        background: var(--ui_background);
+    user-select: none;
 
-        user-select: none;
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        & svg {
-            width: 1rem;
-            height: 1rem;
-
-            stroke: var(--text_color);
-            border-radius: 100px;
-            padding: 2px;
-            background-color: transparent;
-            
-            &:hover {
-                background-color: hsla(0, 0%, 0%, 20%);
-                
-            }
-        }
-
+    &:hover {
+      cursor: pointer;
     }
+
+    & svg {
+      width: 1rem;
+      height: 1rem;
+
+      stroke: var(--text_color);
+      border-radius: 100px;
+      padding: 2px;
+      background-color: transparent;
+
+      &:hover {
+        background-color: hsla(0, 0%, 0%, 20%);
+      }
+    }
+  }
 }
 
 .channel_list_hidden {
-    display: none;
+  display: none;
 }
 
 .button_icon_flipped {
-    rotate: 180deg;
+  rotate: 180deg;
 }
 
 .toast_body {
-    position: fixed;
-    bottom: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    height: 3rem;
-    
-    border-radius: 1.5rem;
-    
-    background-color: var(--ui_background);
-    
-    display:flex;
-    align-items: center;
-    padding: 0 1rem;
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
 
-    box-shadow: var(--ui_shadow);
-    
-    visibility: hidden;
-    transition: visibility 5s;
+  height: 3rem;
 
-    cursor: crosshair;
+  border-radius: 1.5rem;
 
-    font-weight: bold;
+  background-color: var(--ui_background);
 
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+
+  box-shadow: var(--ui_shadow);
+
+  visibility: hidden;
+  transition: visibility 5s;
+
+  cursor: crosshair;
+
+  font-weight: bold;
 }
 
 .toast_success {
-    color: hsl(134, 54%, 20%)
-
+  color: hsl(134, 54%, 20%);
 }
 
 .toast_error {
-    color: hsl(0, 51%, 43%)
+  color: hsl(0, 51%, 43%);
 }
 
 .toast_fade {
-    visibility: visible;
-    animation: toast_animation_fade 2.5s linear forwards;
+  visibility: visible;
+  animation: toast_animation_fade 2.5s linear forwards;
 }
 
 @keyframes toast_animation_fade {
-    0%, 90% {opacity: 1;}
-    100% {opacity: 0;}
+  0%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (aspect-ratio <= 1/1) {
-    main {
-        flex-direction: column-reverse;
-    }
-    .controls_section {
-        position: sticky;
-        bottom: 0;
-        top: unset;
-        
-        box-shadow: 0px -5px 5px  rgba(0, 0, 0, 0.698);
-    }
+  main {
+    flex-direction: column-reverse;
+  }
+  .controls_section {
+    position: sticky;
+    bottom: 0;
+    top: unset;
 
-
+    box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.698);
+  }
 }
