@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import ReactDOM from "react-dom/client"
 
-import { InputForm } from "./components/InputForm.jsx"
-import { VideoCard } from "./components/VideoCard.jsx"
-import { ChannelListItem } from "./components/ChannelListItem.jsx"
+import { InputForm } from "./components/InputForm.js"
+import { VideoCard } from "./components/VideoCard.js"
+import { ChannelListItem } from "./components/ChannelListItem.js"
 import {
   readFormData,
   readCachedPlaylistData,
@@ -15,18 +15,18 @@ import {
   writeScrollData,
   readCurrentChannel,
   writeCurrentChannel,
-} from "./utils_storage.jsx"
+} from "./utils_storage.js"
 
 import {
   createChannelData,
   createPlaylistData,
   createScrollData,
-} from "./utils_data.jsx"
+} from "./utils_data.js"
 
 import "./index.css"
 
 import icon_map from "./icons/app_icons_map.svg"
-import { Toast } from "./components/Toast.jsx"
+import { Toast } from "./components/Toast.js"
 
 //API UTILS
 
