@@ -589,11 +589,7 @@ const App = () => {
         Scroll to Top
       </button>
       {toast !== null ?
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          closerCallback={setToast}
-        />
+        <Toast toast={toast} setToast={setToast} />
       : null}
     </>
   )

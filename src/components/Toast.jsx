@@ -1,7 +1,6 @@
 import React from "react"
 
-const Toast = ({ message, type, closerCallback }) => {
-  let animation_ref = React.useRef({ message, type })
+const Toast = ({ toast, setToast }) => {
   let toast_body_ref = React.useRef(null)
   let toast_animations_ref = React.useRef(null)
 
@@ -16,25 +15,25 @@ const Toast = ({ message, type, closerCallback }) => {
     })
 
     toast_body_ref.current?.addEventListener("animationend", () => {
-      closerCallback(null)
+      setToast(null)
     })
 
     return () => {
       toast_body_ref.current?.removeEventListener("animationEnd", () => {
-        closerCallback(null)
+        setToast(null)
       })
     }
-  })
+  }, [toast, setToast])
 
   return (
     <div
       className={`
                 toast_body 
-                ${type ? "toast_success" : "toast_error"}
+                ${toast.type ? "toast_success" : "toast_error"}
                 toast_fade
             `}
       ref={toast_body_ref}>
-      <span>{message}</span>
+      <span>{toast.message}</span>
     </div>
   )
 }
