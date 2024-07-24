@@ -10,11 +10,12 @@
 }
 
 :root {
-  --text_color: rgb(50, 50, 50);
+  --text_color: hsl(0, 0%, 10%);
   --ui_background: rgb(217, 217, 217);
-  --ui_main: hsl(0, 78%, 59%);
+  --ui_main: hsl(0, 54%, 53%);
   --ui_body_background: hsl(0, 0%, 10%);
-  --text_link_color: rgb(32, 32, 32);
+  --text_link_color: hsl(0, 0%, 10%);
+  --ui_shadow: 0px 5px 5px rgba(0, 0, 0, 0.698);
 }
 
 body {
@@ -61,7 +62,7 @@ main {
 }
 
 section {
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.698);
+  box-shadow: var(--ui_shadow);
   background-color: var(--ui_main);
   padding: 0.5rem;
 
@@ -197,6 +198,7 @@ section {
   & p {
     font-weight: bold;
     margin-top: 0.5rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -291,7 +293,7 @@ section {
     align-items: center;
     gap: 0.5rem;
 
-    border: 1px solid var(--text_color);
+    border: 2px solid var(--text_color);
     color: var(--text_color);
     font-weight: bold;
     font-size: 1rem;
@@ -330,6 +332,55 @@ section {
   rotate: 180deg;
 }
 
+.toast_body {
+  position: fixed;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  height: 3rem;
+
+  border-radius: 1.5rem;
+
+  background-color: var(--ui_background);
+
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+
+  box-shadow: var(--ui_shadow);
+
+  visibility: hidden;
+  transition: visibility 5s;
+
+  cursor: crosshair;
+
+  font-weight: bold;
+}
+
+.toast_success {
+  color: hsl(134, 54%, 20%);
+}
+
+.toast_error {
+  color: hsl(0, 51%, 43%);
+}
+
+.toast_fade {
+  visibility: visible;
+  animation: toast_animation_fade 2.5s linear forwards;
+}
+
+@keyframes toast_animation_fade {
+  0%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (aspect-ratio <= 1/1) {
   main {
     flex-direction: column-reverse;
@@ -342,3 +393,4 @@ section {
     box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.698);
   }
 }
+
