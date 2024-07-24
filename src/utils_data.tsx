@@ -1,31 +1,9 @@
-/*
-CHANNELDATA
-{
-    channeId:string : channelName:string,
-    channeId:string : channelName:string,
-    ...
-}
-
-
-PLAYLISTDATA
-{
-    channelId: [playlists:youtuberesponse]
-}
-
-
-SCROLLDATA
-{
-    channelId: scrollDistance:int
-}
-
-CURRENTCHANNEL
-channeId:string
-*/
+import { ChannelData, PlaylistData, ScrollData } from "./types"
 
 export const createChannelData = (
-  newChannelDataEntry = undefined,
-  oldChannelData = undefined,
-) => {
+  newChannelDataEntry: ChannelData | undefined = undefined,
+  oldChannelData: ChannelData | undefined = undefined,
+): ChannelData => {
   let channelId =
     newChannelDataEntry ? Object.keys(newChannelDataEntry)[0] : null
 
@@ -36,9 +14,9 @@ export const createChannelData = (
 }
 
 export const createPlaylistData = (
-  newChannelPlaylistEntry = undefined,
-  oldPlaylistData = undefined,
-) => {
+  newChannelPlaylistEntry: PlaylistData | undefined = undefined,
+  oldPlaylistData: PlaylistData | undefined = undefined,
+): PlaylistData => {
   let channelId =
     newChannelPlaylistEntry ? Object.keys(newChannelPlaylistEntry)[0] : null
 
@@ -49,9 +27,9 @@ export const createPlaylistData = (
 }
 
 export const createScrollData = (
-  newScrollDataEntry = undefined,
-  oldScrollData = undefined,
-) => {
+  newScrollDataEntry: ScrollData | undefined = undefined,
+  oldScrollData: ScrollData | undefined = undefined,
+): ScrollData => {
   let channelId = newScrollDataEntry ? Object.keys(newScrollDataEntry)[0] : null
 
   return {

@@ -1,12 +1,20 @@
 import React from "react"
 import icon_map from "../icons/app_icons_map.svg"
+import { ChannelId, ChannelName } from "../types"
+
+interface ChannelListItem_Prop {
+  channelId: ChannelId
+  channelName: ChannelName
+  clickHandler(channelId: ChannelId): void
+  removeHandler(channelId: ChannelId): void
+}
 
 const ChannelListItem = ({
   channelId,
   channelName,
   clickHandler,
   removeHandler,
-}) => {
+}: ChannelListItem_Prop) => {
   return (
     <div
       className="channel_item"

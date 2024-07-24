@@ -1,12 +1,18 @@
 import React from "react"
+import { Toast_Data } from "../types"
 
-const Toast = ({ toast, setToast }) => {
-  let toast_body_ref = React.useRef(null)
-  let toast_animations_ref = React.useRef(null)
+interface Toast_Prop {
+  toast: Toast_Data
+  setToast(toast_data_new: Toast_Data | null): void
+}
+
+const Toast = ({ toast, setToast }: Toast_Prop) => {
+  let toast_body_ref = React.useRef<HTMLDivElement | null>(null)
+  let toast_animations_ref = React.useRef<Animation[] | null>(null)
 
   React.useEffect(() => {
     if (!toast_animations_ref.current) {
-      toast_animations_ref.current = toast_body_ref.current.getAnimations()
+      toast_animations_ref.current = toast_body_ref.current!.getAnimations()
     }
 
     toast_animations_ref.current.forEach((animation) => {

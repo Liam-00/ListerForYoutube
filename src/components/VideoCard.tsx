@@ -1,12 +1,19 @@
 import React from "react"
 
-const VideoCard = ({ title, date, thumbnail, id }) => {
+interface VideoCard_Prop {
+  title: string
+  date: string
+  thumbnail: string
+  id: string
+}
+
+const VideoCard = ({ title, date, thumbnail, id }: VideoCard_Prop) => {
   let link = `http://youtube.com/watch?v=${id}`
 
-  const cardRef = React.useRef(null)
+  const cardRef = React.useRef<HTMLDivElement>(null)
 
   const handleImgLoad = () => {
-    cardRef.current.classList.add("videocard_visible")
+    cardRef.current?.classList.add("videocard_visible")
   }
 
   return (

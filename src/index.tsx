@@ -1,9 +1,14 @@
-import React, { useState } from "react"
+import React, {
+  ChangeEvent,
+  FormEventHandler,
+  useState,
+  WheelEvent,
+} from "react"
 import ReactDOM from "react-dom/client"
 
-import { InputForm } from "./components/InputForm.js"
-import { VideoCard } from "./components/VideoCard.js"
-import { ChannelListItem } from "./components/ChannelListItem.js"
+import { InputForm } from "./components/InputForm"
+import { VideoCard } from "./components/VideoCard"
+import { ChannelListItem } from "./components/ChannelListItem"
 import {
   readFormData,
   readCachedPlaylistData,
@@ -15,22 +20,34 @@ import {
   writeScrollData,
   readCurrentChannel,
   writeCurrentChannel,
-} from "./utils_storage.js"
+} from "./utils_storage"
 
 import {
   createChannelData,
   createPlaylistData,
   createScrollData,
-} from "./utils_data.js"
+} from "./utils_data"
 
 import "./index.css"
 
 import icon_map from "./icons/app_icons_map.svg"
-import { Toast } from "./components/Toast.js"
+import { Toast } from "./components/Toast"
+import {
+  ApiKey,
+  ChannelHandle,
+  ChannelId,
+  PageToken,
+  FormData,
+  Toast_Data,
+} from "./types"
+import { YoutubePlaylistItem } from "./types_youtube"
 
 //API UTILS
 
-const getChannelID = async (channelHandle, apiKey) => {
+const getChannelID = async (
+  channelHandle: ChannelHandle,
+  apiKey: ApiKey,
+): Promise<ChannelId | null> => {
   const response_channelId = await fetch(
     `https://www.googleapis.com/youtube/v3/channels?forHandle=${channelHandle}&part=id&key=${apiKey}`,
   )
@@ -43,7 +60,11 @@ const getChannelID = async (channelHandle, apiKey) => {
   return null
 }
 
-const getChannelPlaylist = async (channelId, apiKey, nextPageToken) => {
+const getChannelPlaylist = async (
+  channelId: ChannelId,
+  apiKey: ApiKey,
+  nextPageToken?: PageToken,
+): Promise<YoutubePlaylistItem | null> => {
   const playlistId = `UULF${channelId.slice(2)}`
   const pageToken = nextPageToken ? `&pageToken=${nextPageToken}` : ``
 
@@ -71,12 +92,14 @@ const App = () => {
 
     let data = readFormData()
 
-    return {
+    let result: FormData = {
       channel_handle: "", //data?.channel_handle ? data.channel_handle : "",
       api_key: data?.api_key && data?.do_save_api_key ? data.api_key : "",
       do_save_api_key: data?.do_save_api_key ?? false,
       do_remember_playlist: data?.do_remember_playlist ?? false,
     }
+
+    return result
   })
 
   const [showChannelList, setShowChannelList] = React.useState(true)
@@ -84,9 +107,10 @@ const App = () => {
   const [playlistData, setPlaylistData] = React.useState(() => {
     let Data = readCachedPlaylistData()
     if (!Data) {
-      writePlaylistDataToCache(createPlaylistData())
-      return {}
+      Data = createPlaylistData()
+      writePlaylistDataToCache(Data)
     }
+
     return Data
   })
 
@@ -94,9 +118,10 @@ const App = () => {
     let Data = readChannelData()
 
     if (!Data) {
-      writeChannelData(createChannelData())
-      return {}
+      Data = createChannelData()
+      writeChannelData(Data)
     }
+
     return Data
   })
 
@@ -104,7 +129,8 @@ const App = () => {
     let Data = readScrollData()
 
     if (!Data) {
-      writeScrollData(createScrollData())
+      Data = createScrollData()
+      writeScrollData(Data)
     }
     return Data
   })
@@ -131,9 +157,9 @@ const App = () => {
 
   const [canLoadMore, setCanLoadMore] = React.useState(true)
 
-  const [toast, setToast] = React.useState(null)
+  const [toast, setToast] = React.useState<Toast_Data | null>(null)
 
-  const refChannelList = React.useRef(null)
+  const refChannelList = React.useRef<HTMLDivElement>(null)
 
   //HANDLERS=================================================================
   const handleScrollToTop = () => {
@@ -142,37 +168,36 @@ const App = () => {
 
   const handleToggleChannelListView = () => {
     showChannelList ?
-      refChannelList.current.classList.add("channel_list_hidden")
-    : refChannelList.current.classList.remove("channel_list_hidden")
+      refChannelList.current!.classList.add("channel_list_hidden")
+    : refChannelList.current!.classList.remove("channel_list_hidden")
 
     setShowChannelList(!showChannelList)
   }
 
-  const handleFormChange = (e) => {
+  const handleFormChange = (e: ChangeEvent) => {
+    let target = e.target as HTMLInputElement
     let newState = {
       ...FormData,
-      [e.target.name]:
-        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+      [target.name]: target.type === "checkbox" ? target.checked : target.value,
     }
     writeFormData(newState)
     setFormData(newState)
   }
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
 
     //get requested playlist by channel handle
     let id = await getChannelID(FormData.channel_handle, FormData.api_key)
 
-    //TODO: spawn toast to inform error
     if (!id) {
       setToast({ message: "Error: Could not find channel.", type: false })
       return null
     }
 
-    let playlist = await getChannelPlaylist(id, FormData.api_key)
+    let playlist_new = await getChannelPlaylist(id, FormData.api_key)
 
-    if (!playlist) {
+    if (!playlist_new) {
       setToast({
         message: "Error: Could not retrieve videos from channel.",
         type: false,
@@ -181,8 +206,8 @@ const App = () => {
     }
 
     //check if channel is cached and update
-    let channelId = `${playlist.items[0].snippet.channelId}`
-    let channelName = `${playlist.items[0].snippet.channelTitle}`
+    let channelId = `${playlist_new.items[0].snippet.channelId}`
+    let channelName = `${playlist_new.items[0].snippet.channelTitle}`
 
     let cache_check = Object.keys(channelData).includes(channelId)
     if (cache_check) {
@@ -190,11 +215,11 @@ const App = () => {
         createChannelData({ [channelId]: channelName }, channelData),
       )
       setPlaylistData(
-        createPlaylistData({ [channelId]: [playlist] }, playlistData),
+        createPlaylistData({ [channelId]: [playlist_new] }, playlistData),
       )
     }
 
-    setLocalPlaylist([playlist])
+    setLocalPlaylist([playlist_new])
     setCurrentChannel(null)
   }
 
@@ -208,7 +233,7 @@ const App = () => {
       localPlaylist[localPlaylist.length - 1].items[0].snippet.channelTitle ??
       null
 
-    if (!channelId || !channelName) {
+    if (!channelId || !channelName || !pageToken) {
       setToast({ message: "Error: Internal data error.", type: false })
       return null
     }
@@ -219,6 +244,7 @@ const App = () => {
       FormData.api_key,
       pageToken,
     )
+
     if (!nextPlaylistSet) {
       setToast({ message: "Error: Network or API unavailable.", type: false })
       return null
@@ -272,9 +298,9 @@ const App = () => {
     //find last visible videocard on screen
     let videocards = Array.from(document.getElementsByClassName("videocard"))
 
-    let videocard_lowestVisible_index
+    let videocard_lowestVisible_index = videocards.length - 1
 
-    //loop through videocard indexes
+    //loop through local videocard indexes
     for (let i_video = videocards.length - 1; i_video >= 0; i_video--) {
       //get page coordinates of videocard
       let videocard_coordinates = videocards[i_video].getBoundingClientRect()
@@ -283,7 +309,7 @@ const App = () => {
       videocard_lowestVisible_index = i_video
 
       //when lowest videocard is found, break, leaving the index available
-      if (videocard_coordinates.bottom <= visualViewport.height) {
+      if (videocard_coordinates.bottom <= visualViewport!.height) {
         break
       }
     }
@@ -306,7 +332,7 @@ const App = () => {
 
     let newVideos_count = 0
     let newPlaylist_count = 0
-    let newPlaylists = []
+    let newPlaylists: YoutubePlaylistItem[] = []
 
     //keep looping if we haven't found the lowestVisible in fetched playlists and -
     //the newPlaylists length is less than localPlaylist length
@@ -318,7 +344,7 @@ const App = () => {
     ) {
       //fetch playlist
       //if first playlist already fetched, get next one with nextPageToken
-      let newPlaylist =
+      let newPlaylist: YoutubePlaylistItem | null =
         newPlaylists.length === 0 ?
           await getChannelPlaylist(channel_id, FormData.api_key)
         : await getChannelPlaylist(
@@ -393,12 +419,12 @@ const App = () => {
     }
   }
 
-  const handleChannelListItemClick = (channelId) => {
+  const handleChannelListItemClick = (channelId: ChannelId) => {
     setCurrentChannel(channelId)
     setLocalPlaylist(playlistData[channelId])
   }
 
-  const handleChannelListItemRemove = (channelId) => {
+  const handleChannelListItemRemove = (channelId: ChannelId) => {
     //clone caches
     let newPlaylistData = { ...playlistData }
     let newChannelData = { ...channelData }
@@ -436,7 +462,7 @@ const App = () => {
     }
 
     //listener function
-    const handlescroll = (e) => {
+    const handlescroll = (e: Event) => {
       if (currentChannel) {
         setScrollData(
           createScrollData({ [currentChannel]: window.scrollY }, scrollData),
@@ -595,5 +621,5 @@ const App = () => {
   )
 }
 
-const root = ReactDOM.createRoot(document.getElementById("app"))
+const root = ReactDOM.createRoot(document.getElementById("app")!)
 root.render(<App />)

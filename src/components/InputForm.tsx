@@ -1,7 +1,18 @@
-import React from "react"
+import React, { ChangeEventHandler, FormEventHandler } from "react"
 import icon_map from "../icons/app_icons_map.svg"
+import { FormData } from "../types"
 
-const InputForm = ({ formState, handleChange, handleSubmit }) => {
+interface InputForm_Prop {
+  formState: FormData
+  handleChange: ChangeEventHandler<HTMLInputElement>
+  handleSubmit: FormEventHandler<HTMLFormElement>
+}
+
+const InputForm = ({
+  formState,
+  handleChange,
+  handleSubmit,
+}: InputForm_Prop) => {
   return (
     <form
       className="inputform inputform_col"
