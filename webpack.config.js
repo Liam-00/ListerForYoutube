@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 
 export default {
-  entry: ["/src/index.jsx", "/src/app.js"],
+  entry: ["/src/index.tsx", "/src/app.ts"],
   output: {
     path: path.join(process.cwd(), "/dist"),
     clean: true,
@@ -18,12 +18,22 @@ export default {
   module: {
     rules: [
       {
-        test: /\.jsx$/,
+        test: /\.(tsx|ts)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "ts-loader",
+        },
+      },
+      {
+        test: /\.(jsx|js)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: [["@babel/preset-react", { targets: "defaults" }]],
+            presets: [
+              ["@babel/preset-react", { targets: "defaults" }],
+              "@babel/preset-typescript",
+            ],
           },
         },
       },
@@ -74,6 +84,9 @@ export default {
     }),
     new MiniCssExtractPlugin(),
   ],
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
