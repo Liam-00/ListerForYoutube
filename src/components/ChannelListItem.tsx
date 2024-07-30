@@ -17,7 +17,7 @@ const ChannelListItem = ({
 }: ChannelListItem_Prop) => {
   return (
     <div
-      className="channel_item"
+      className="channel_item text_channelList_item"
       onClick={(e) => {
         e.stopPropagation()
         clickHandler(channelId)

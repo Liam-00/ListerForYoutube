@@ -11,18 +11,25 @@
 
 :root {
   --text_color: hsl(0, 0%, 10%);
-  --ui_background: rgb(217, 217, 217);
-  --ui_main: hsl(0, 54%, 53%);
-  --ui_body_background: hsl(0, 0%, 10%);
-  --text_link_color: hsl(0, 0%, 10%);
-  --ui_shadow: 0px 5px 5px rgba(0, 0, 0, 0.698);
+  --background: rgb(217, 217, 217);
+
+  --main_primary: hsl(0, 54%, 55%);
+  --main_secondary: hsl(0, 54%, 48%);
+
+  --body_background: hsl(0, 0%, 10%);
+  --text_link_color: hsl(0, 0%, 15%);
+  --shadow: 0px 5px 5px rgba(0, 0, 0, 0.698);
+  --section_border_col: hsla(0, 0%, 100%, 20%);
+  --well_col: hsla(0, 0%, 30%, 15%);
 }
 
 body {
-  background-color: var(--ui_body_background);
+  background: linear-gradient(to bottom, var(--body_background), black);
   font-family: "Varela Round", "Trebuchet MS";
   color: var(--text_color);
+
   margin: 0px;
+
   font-size: 16px;
 }
 
@@ -62,16 +69,35 @@ main {
 }
 
 section {
-  box-shadow: var(--ui_shadow);
-  background-color: var(--ui_main);
-  padding: 0.5rem;
+  box-shadow: var(--shadow);
+  /* background-color: var(--ui_main); */
+  --stripe_one: var(--main_primary);
+  --stripe_two: var(--main_secondary);
+  background: linear-gradient(
+    45deg,
+    var(--stripe_one) 0%,
+    var(--stripe_one) 12.5%,
+    var(--stripe_two) 12.5%,
+    var(--stripe_two) 37.5%,
+    var(--stripe_one) 37.5%,
+    var(--stripe_one) 62.5%,
+    var(--stripe_two) 62.5%,
+    var(--stripe_two) 87.5%,
+    var(--stripe_one) 87.5%,
+    var(--stripe_one) 100%
+  );
+  background-size: 0.5rem 0.5rem;
 
-  & h1 {
-    color: hsla(0, 0%, 0%, 40%);
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-style: italic;
-  }
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  border: 1px solid var(--section_border_col);
+}
+
+.text_channelTitle {
+  color: var(--text_color);
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-style: italic;
 }
 
 .controls_section {
@@ -94,12 +120,15 @@ section {
   justify-content: center;
   gap: 0.5rem;
 
-  background-color: var(--ui_background);
-  padding: 5px 1rem 6px 1rem;
+  background-color: var(--background);
+
   user-select: none;
+  height: 2.5rem;
+
   border: none;
   border-top: 3px solid white;
   border-left: 3px solid white;
+  border-right: 3px solid var(--background);
   border-bottom: 1px solid black;
 
   font-family: "Varela Round";
@@ -131,10 +160,13 @@ section {
 }
 
 .button_floating {
+  --height: 3rem;
+
   position: fixed;
-  bottom: 30%;
+  bottom: calc(40% - var(--height));
   right: 10%;
-  height: 3rem;
+
+  height: var(--height);
 }
 
 .button_row {
@@ -155,6 +187,10 @@ section {
   height: 6rem;
   margin-top: 0.8rem;
   opacity: 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--section_border_col);
+  border-radius: 0.2rem;
+  overflow: hidden;
   & > a {
     text-decoration: none;
     height: 100%;
@@ -173,33 +209,33 @@ section {
   padding-top: 0.5rem;
   background: linear-gradient(
     to right,
-    hsla(0, 0%, 100%, 10%),
-    hsla(0, 0%, 0%, 0%) 75%
+    var(--main_primary) 1%,
+    hsla(0, 0%, 0%, 15%)
   );
   align-self: stretch;
 
   width: calc(100%);
+}
 
-  & h2 {
+.text_videocard_title {
+  font-size: 1.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  & > a {
     font-size: 1.1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-
-    & > a {
-      font-size: 1.1rem;
-      color: var(--text_link_color);
-      text-decoration: underline;
-    }
+    color: var(--text_link_color);
+    text-decoration: underline;
   }
+}
 
-  & p {
-    font-weight: bold;
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-  }
+.text_videocard_body {
+  font-weight: bold;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .videolist_button {
@@ -213,7 +249,7 @@ section {
   min-height: 2rem;
   border: 1px solid transparent;
   outline: none;
-  background-color: var(--ui_background);
+  background-color: var(--background);
   &:active {
     border: 1px solid black;
   }
@@ -284,9 +320,14 @@ section {
 
 .channel_list {
   display: flex;
-  gap: 0.5rem;
   flex-wrap: wrap;
-  padding: 0rem;
+
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 2rem;
+
+  background: var(--well_col);
+  border: 1px solid var(--section_border_col);
 
   & .channel_item {
     display: flex;
@@ -294,13 +335,10 @@ section {
     gap: 0.5rem;
 
     border: 2px solid var(--text_color);
-    color: var(--text_color);
-    font-weight: bold;
-    font-size: 1rem;
 
     padding: 0.4rem 1rem;
     border-radius: 100px;
-    background: var(--ui_background);
+    background: var(--background);
 
     user-select: none;
 
@@ -324,6 +362,12 @@ section {
   }
 }
 
+.text_channelList_item {
+  color: var(--text_color);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 .channel_list_hidden {
   display: none;
 }
@@ -342,13 +386,13 @@ section {
 
   border-radius: 1.5rem;
 
-  background-color: var(--ui_background);
+  background-color: var(--background);
 
   display: flex;
   align-items: center;
   padding: 0 1rem;
 
-  box-shadow: var(--ui_shadow);
+  box-shadow: var(--shadow);
 
   visibility: hidden;
   transition: visibility 5s;

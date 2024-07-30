@@ -577,7 +577,7 @@ const App = () => {
       <section>
         <div>
           <div className="section_header">
-            <h1>
+            <h1 className="text_channelTitle">
               {localPlaylist.length > 0 ?
                 localPlaylist[0].items[0].snippet.channelTitle
               : "Welcome to Lister For Youtube!"}
